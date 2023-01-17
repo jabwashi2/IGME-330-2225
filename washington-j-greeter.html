@@ -6,22 +6,35 @@
     <style>
       *{font-size:1.5em;}
     </style>
-    <script>
     
-    // 1 - get a reference to the button
-    
-
-    // 2 - add a click event to button that calls a `sayHello` function
-    // 3 - create a `sayHello()` function
-    // 3A - get name of person from the <input>
-    // 3B - get a reference to the #output <p>
-    // 3C - update HTML of #output <p>
-    
-    </script>
   </head>
 <body>
   <button>Click Me!</button>
   <input id="input-firstname" placeholder="Type in your name">
   <p id="output">???</p>
 </body>
+<script>
+    
+    'use strict';
+
+    // 1 - get a reference to the button
+    init();
+
+    function init(){
+        const button = document.querySelect("button");
+    }
+
+    // 2 - add a click event to button that calls a `sayHello` function
+    button.onClick = sayHello;
+
+    // 3 - create a `sayHello()` function
+    function sayHello(){
+        console.log("Hello :)))))");
+    }
+
+    // 3A - get name of person from the <input>
+    // 3B - get a reference to the #output <p>
+    // 3C - update HTML of #output <p>
+    
+    </script>
 </html>
