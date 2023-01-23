@@ -17,9 +17,39 @@
 			height: 50pt;
 			font-size: 15pt;
 		}
+
+		/*media queries*/
+		@media only screen and (min-with: 320px){
+			.container {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+			}
+
+			html, body, .container{
+				height: 100%;
+				margin: 0;
+			}
+
+			h1{
+				font-size: 1.2rem;
+				background-color: #174287;
+				color: #f5f5f5;
+				padding: .8rem;
+				margin: 0;
+				text-align: center;
+			}
+
+			#output{
+				text-align: center;
+			}
+		}
+
 	</style>
 
 	<script>
+
 		window.addEventListener("load", init);
 		window.addEventListener("load", getWords);
 
@@ -50,9 +80,6 @@
 
 			button.onclick = getWords;
 		}
-
-		// we don't want to use the same random number for each array, we want a different one each time; solved!
-
 
 	</script>
 
