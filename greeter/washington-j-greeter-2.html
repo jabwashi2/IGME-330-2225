@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    
     <meta charset="utf-8" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
     <title>Greeter</title>
+
     <style>
 
       @media only screen and (min-width: 1024px) {
@@ -38,7 +40,7 @@
       window.addEventListener("load", init);
 
       // 3 - create a `sayHello()` function
-      function sayHello() {
+/*       function sayHello() {
         // 3A - get name of person from the <input>
         let firstname = document.querySelector("#input-firstname").value;
         let lastname = document.querySelector("#input-lastname").value;
@@ -85,6 +87,27 @@
 
         // 3C - update HTML of #output <p>
         output.innerHTML = `Goodbye, ${firstname} ${lastname}`;
+      } */
+
+      function greet(greeting) {
+
+        let firstname = document.querySelector("#input-firstname").value;
+        let lastname = document.querySelector("#input-lastname").value;
+
+        firstname = firstname.trim();
+        lastname = lastname.trim();
+
+        if (!firstname) {
+          firstname = "Peter";
+        }
+        if (!lastname) {
+          lastname = "Parker";
+        }
+
+        name = `${firstname} ${lastname}`;
+
+        document.querySelector("#output").innerHTML = `${greeting}, ${name}`;
+
       }
 
       function init() {
@@ -92,8 +115,12 @@
         const hibutton = document.querySelector("#btn-hello");
         const byebutton = document.querySelector("#btn-goodbye");
         // 2 - add a click event to button that calls a `sayHello` function
-        hibutton.onclick = sayHello;
-        byebutton.onclick = sayGoodbye;
+
+        hibutton.onclick = (e) => greet("Hola");
+        byebutton.onclick = (e) => greet("Adioooooooooos");
+
+        // hibutton.onclick = sayHello;
+        // byebutton.onclick = sayGoodbye;
         // could also use 'addEventListener'
 
         // changing styles
