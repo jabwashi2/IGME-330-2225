@@ -111,22 +111,19 @@
       }
 
       function shoutify() {
-        let box = document.querySelector("#shout");
-        if (box.checked == true)
-        {
-          document.querySelector("#output").innerHTML.toUpperCase();
-        }
+        
       }
 
       function init() {
         // 1 - get a reference to the button
         const hibutton = document.querySelector("#btn-hello");
         const byebutton = document.querySelector("#btn-goodbye");
-        //const checkbox = document.querySelector("#shout");
+        const checkbox = document.querySelector("#shout");
         // 2 - add a click event to button that calls a `sayHello` function
 
         hibutton.onclick = (e) => greet("Hola");
         byebutton.onclick = (e) => greet("Adioooooooooos");
+        checkbox.checked = (e) => shoutify();
 
         // hibutton.onclick = sayHello;
         // byebutton.onclick = sayGoodbye;
