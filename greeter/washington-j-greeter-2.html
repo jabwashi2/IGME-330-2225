@@ -37,6 +37,25 @@
 
       "use strict";
 
+      const init = () => {
+        // 1 - get a reference to the button
+        const hibutton = document.querySelector("#btn-hello");
+        const byebutton = document.querySelector("#btn-goodbye");
+        //const checkbox = document.querySelector("#shout");
+        // 2 - add a click event to button that calls a `sayHello` function
+
+        hibutton.onclick = (e) => greet("Hola");
+        byebutton.onclick = (e) => greet("Adioooooooooos");
+
+        // hibutton.onclick = sayHello;
+        // byebutton.onclick = sayGoodbye;
+        // could also use 'addEventListener'
+
+        // changing styles
+        document.querySelector("p").style.color = "red";
+        document.querySelector("p").style.backgroundColor = "yellow";
+      }
+
       window.addEventListener("load", init);
 
       // 3 - create a `sayHello()` function
@@ -89,7 +108,7 @@
         output.innerHTML = `Goodbye, ${firstname} ${lastname}`;
       } */
 
-      function greet(greeting) {
+      const greet = (greeting) => {
 
         let firstname = document.querySelector("#input-firstname").value;
         let lastname = document.querySelector("#input-lastname").value;
@@ -110,22 +129,8 @@
 
       }
 
-      function shoutify() {
+      const shoutify = () => {
         let box = document.querySelector("#shoutify-box");
-/*         let firstname = document.querySelector("#input-firstname").value;
-        let lastname = document.querySelector("#input-lastname").value;
-
-        firstname = firstname.trim();
-        lastname = lastname.trim();
-
-        if (!firstname) {
-          firstname = "Peter";
-        }
-        if (!lastname) {
-          lastname = "Parker";
-        }
-
-        name = `${firstname} ${lastname}`; */
         let output = document.querySelector("#output").innerHTML
         let ogText = output;
         if (box.checked == true)
@@ -133,25 +138,6 @@
           document.querySelector("#output").innerHTML = `${output}`.toUpperCase();
           console.log("you checked the checkbox!");
         }
-      }
-
-      function init() {
-        // 1 - get a reference to the button
-        const hibutton = document.querySelector("#btn-hello");
-        const byebutton = document.querySelector("#btn-goodbye");
-        //const checkbox = document.querySelector("#shout");
-        // 2 - add a click event to button that calls a `sayHello` function
-
-        hibutton.onclick = (e) => greet("Hola");
-        byebutton.onclick = (e) => greet("Adioooooooooos");
-
-        // hibutton.onclick = sayHello;
-        // byebutton.onclick = sayGoodbye;
-        // could also use 'addEventListener'
-
-        // changing styles
-        document.querySelector("p").style.color = "red";
-        document.querySelector("p").style.backgroundColor = "yellow";
       }
 
     </script>
