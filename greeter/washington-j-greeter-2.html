@@ -118,7 +118,7 @@
 
         if (!firstname) {
           firstname = "Peter";
-        }
+        }// what the WHAT :(
         if (!lastname) {
           lastname = "Parker";
         }
@@ -130,14 +130,15 @@
       }
 
       const shoutify = () => {
+
         let box = document.querySelector("#shoutify-box");
         let output = document.querySelector("#output").innerHTML
-        let ogText = output;
-        if (box.checked == true)
-        {
+
+        if (box.checked == true){
           document.querySelector("#output").innerHTML = `${output}`.toUpperCase();
           console.log("you checked the checkbox!");
         }
+
       }
 
     </script>
