@@ -41,15 +41,10 @@
         // 1 - get a reference to the button
         const hibutton = document.querySelector("#btn-hello");
         const byebutton = document.querySelector("#btn-goodbye");
-        //const checkbox = document.querySelector("#shout");
-        // 2 - add a click event to button that calls a `sayHello` function
 
+        // adding onclick events
         hibutton.onclick = (e) => greet("Hola");
         byebutton.onclick = (e) => greet("Adioooooooooos");
-
-        // hibutton.onclick = sayHello;
-        // byebutton.onclick = sayGoodbye;
-        // could also use 'addEventListener'
 
         // changing styles
         document.querySelector("p").style.color = "red";
@@ -57,57 +52,7 @@
       }
 
       window.addEventListener("load", init);
-
-      // 3 - create a `sayHello()` function
-/*       function sayHello() {
-        // 3A - get name of person from the <input>
-        let firstname = document.querySelector("#input-firstname").value;
-        let lastname = document.querySelector("#input-lastname").value;
-
-        firstname = firstname.trim();
-        lastname = lastname.trim();
-
-        if (!firstname) {
-          firstname = "Peter";
-        }
-        if (!lastname) {
-          lastname = "Parker";
-        }
-
-        // if you were selecting the id, you would say "#input-firstname"
-        console.log(`Hello, ${firstname}`);
-
-        // 3B - get a reference to the #output <p>
-        let output = document.querySelector("p");
-
-        // 3C - update HTML of #output <p>
-        output.innerHTML = `Hello ${firstname} ${lastname}`;
-      }
-
-      function sayGoodbye() {
-        let firstname = document.querySelector("#input-firstname").value;
-        let lastname = document.querySelector("#input-lastname").value;
-
-        firstname = firstname.trim();
-        lastname = lastname.trim();
-
-        if (!firstname) {
-          firstname = "Peter";
-        }
-        if (!lastname) {
-          lastname = "Parker";
-        }
-
-        // if you were selecting the id, you would say "#input-firstname"
-        console.log(`Goodbye, ${firstname}`);
-
-        // 3B - get a reference to the #output <p>
-        let output = document.querySelector("p");
-
-        // 3C - update HTML of #output <p>
-        output.innerHTML = `Goodbye, ${firstname} ${lastname}`;
-      } */
-
+      
       const greet = (greeting) => {
 
         let firstname = document.querySelector("#input-firstname").value;
