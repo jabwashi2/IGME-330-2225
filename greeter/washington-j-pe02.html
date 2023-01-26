@@ -1,105 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    
-    <meta charset="utf-8" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
-    <title>Greeter</title>
 
-    <style>
+<head>
 
-      @media only screen and (min-width: 1024px) {
-        body {
-          background-color: red;
-          padding: 100px;
-        }
+  <meta charset="utf-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+  <title>Greeter</title>
+
+  <style>
+    @media only screen and (min-width: 1024px) {
+      body {
+        background-color: red;
+        padding: 100px;
+      }
+    }
+
+    * {
+      font-size: 1.5em;
+    }
+
+    button {
+      width: 100px;
+      height: 50px;
+      font-size: 14pt;
+    }
+
+    #output {
+      font-family: 'Didact Gothic', sans-serif;
+    }
+
+    label{
+      font-size: .7em;
+    }
+  </style>
+
+  <script>
+
+    "use strict";
+
+    const init = () => {
+      // 1 - get a reference to the button
+      const hibutton = document.querySelector("#btn-hello");
+      const byebutton = document.querySelector("#btn-goodbye");
+
+      // adding onclick events
+      hibutton.onclick = (e) => greet("Hola");
+      byebutton.onclick = (e) => greet("Adioooooooooos");
+
+      // changing styles
+      document.querySelector("p").style.color = "red";
+      document.querySelector("p").style.backgroundColor = "yellow";
+    }
+
+    window.addEventListener("load", init);
+
+    const greet = (greeting) => {
+
+      let firstname = document.querySelector("#input-firstname").value;
+      let lastname = document.querySelector("#input-lastname").value;
+
+      firstname = firstname.trim();
+      lastname = lastname.trim();
+
+      if (!firstname) {
+        firstname = "Peter";
+      }
+      if (!lastname) {
+        lastname = "Parker";
       }
 
-      * {
-        font-size: 1.5em;
+      name = `${firstname} ${lastname}`;
+
+      document.querySelector("#output").innerHTML = `${greeting}, ${name}`;
+
+    }
+
+    const shoutify = () => {
+      let box = document.querySelector("#shoutify-box");
+      let output = document.querySelector("#output").innerHTML
+      let ogText = output;
+      if (box.checked == true) {
+        document.querySelector("#output").innerHTML = `${output}`.toUpperCase();
+        console.log("you checked the checkbox!");
       }
+    }
 
-      button {
-        width: 100px;
-        height: 50px;
-        font-size: 14pt;
-      }
+  </script>
 
-      #output{
-        font-family: 'Didact Gothic', sans-serif;
-      }
+</head>
 
-    </style>
+<body>
 
-    <script>
+  <button id="btn-hello">Say Hello!</button>
+  <button id="btn-goodbye">Say Goodbye!</button>
+  <input type="checkbox" id="shoutify-box" onclick="shoutify()">
+  <label for="shoutify-box">Shoutify!</label>
+  <br>
+  <input id="input-firstname" placeholder="Type in your first name" />
+  <input id="input-lastname" placeholder="Type in your last name" />
+  <p id="output">???</p>
 
-      "use strict";
-
-      const init = () => {
-        // 1 - get a reference to the button
-        const hibutton = document.querySelector("#btn-hello");
-        const byebutton = document.querySelector("#btn-goodbye");
-
-        // adding onclick events
-        hibutton.onclick = (e) => greet("Hola");
-        byebutton.onclick = (e) => greet("Adioooooooooos");
-
-        // changing styles
-        document.querySelector("p").style.color = "red";
-        document.querySelector("p").style.backgroundColor = "yellow";
-      }
-
-      window.addEventListener("load", init);
-      
-      const greet = (greeting) => {
-
-        let firstname = document.querySelector("#input-firstname").value;
-        let lastname = document.querySelector("#input-lastname").value;
-
-        firstname = firstname.trim();
-        lastname = lastname.trim();
-
-        if (!firstname) {
-          firstname = "Peter";
-        }
-        if (!lastname) {
-          lastname = "Parker";
-        }
-
-        name = `${firstname} ${lastname}`;
-
-        document.querySelector("#output").innerHTML = `${greeting}, ${name}`;
-
-      }
-
-      const shoutify = () => {
-        let box = document.querySelector("#shoutify-box");
-        let output = document.querySelector("#output").innerHTML
-        let ogText = output;
-        if (box.checked == true)
-        {
-          document.querySelector("#output").innerHTML = `${output}`.toUpperCase();
-          console.log("you checked the checkbox!");
-        }
-      }
-
-    </script>
-
-  </head>
-
-  <body>
-
-    <button id="btn-hello">Say Hello!</button>
-    <button id="btn-goodbye">Say Goodbye!</button>
-    <input type="checkbox" id="shoutify-box" onclick="shoutify()">
-    <label for="shoutify-box">Shoutify!</label>
-    <br>
-    <input id="input-firstname" placeholder="Type in your first name" />
-    <input id="input-lastname" placeholder="Type in your last name"/>
-    <p id="output">???</p>
-
-  </body>
+</body>
 
 </html>
