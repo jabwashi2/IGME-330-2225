@@ -41,7 +41,7 @@
 
       function loadTextXHR() {
 
-        const url = "data/pet-names.txt";
+        const url = "data/pet-names.csv";
         const xhr = new XMLHttpRequest();
 
         xhr.onload = (e) => {
@@ -49,22 +49,24 @@
           const text = e.target.responseText;
           console.log(`Success - the file length is ${text. length}`);
 
-          const words = text.split(",");
+          const lines = text.split("\n");
+          const dogNames = lines[0].split(",");
+          const catNames = lines[1].split(",");
+          const birdNames = lines[2].split(",");
 
-          // turn array into html
-          // long way
-/* 
-          let html = "<ol>";
-          
-          for (let w of words){
-            html += `<li>${w}</li>`;
-          }
-          
-          html += "</ol>";
-           */
+          const dogHtml = `<ol> ${dogNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
+          const catHtml = `<ol> ${catNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
+          const birdHtml = `<ol> ${birdNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
 
-          // one liner
-          const html = `<ol> ${words.map(w => `<li>${w}</li>`).join("")}</ol`;
+          const html = `
+            <h3>Dog Names</h3>
+            ${dogHtml}
+            <h3>Cat Names</h3>
+            ${catHtml}
+            <h3>Bird Names</h3>
+            ${birdHtml}
+          `;
+
           document.querySelector("#output").innerHTML = html;
 
         };
