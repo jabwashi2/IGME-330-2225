@@ -37,7 +37,7 @@
     <p id="output">Click button to load</p>
 
     <script>
-      document.querySelector("#my-button").onclick = loadTextHR;
+      document.querySelector("#my-button").onclick = loadTextXHR;
 
       function loadTextXHR() {
 
@@ -45,13 +45,32 @@
         const xhr = new XMLHttpRequest();
 
         xhr.onload = (e) => {
-          console.log("In onload - HTTP Status Code = S{e.target.status}");
+          console.log(`In onload - HTTP Status Code = ${e.target.status}`);
           const text = e.target.responseText;
-          console.log("Success - the file length is ${text. length}");
+          console.log(`Success - the file length is ${text. length}`);
+
+          const words = text.split(",");
+
+          // turn array into html
+          // long way
+/* 
+          let html = "<ol>";
+          
+          for (let w of words){
+            html += `<li>${w}</li>`;
+          }
+          
+          html += "</ol>";
+           */
+
+          // one liner
+          const html = `<ol> ${words.map(w => `<li>${w}</li>`).join("")}</ol`;
+          document.querySelector("#output").innerHTML = html;
+
         };
 
         xhr.onerror = (e) =>
-          console.log("In onerror - HTTP Status Code = ${e.target.status}");
+          console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
 
         xhr.open("GET", url);
 
