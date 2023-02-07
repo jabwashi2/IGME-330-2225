@@ -1,5 +1,5 @@
 window.addEventListener("load", init);
-window.addEventListener("load", getWords);
+window.addEventListener("load", () => { getWords(1)});
 
 "use strict";
 
@@ -14,17 +14,31 @@ function getRandom(length) {
     return Math.floor(Math.random() * length)
 }
 
-function getWords() {
-    let first = words1[getRandom(words1.length)];
+function getWords(num) {
+/*     let first = words1[getRandom(words1.length)];
     let second = words2[getRandom(words2.length)];
-    let third = words3[getRandom(words3.length)];
-
+    let third = words3[getRandom(words3.length)]; */
     let output = document.querySelector("#output");
-    output.innerHTML = `${first} ${second} ${third}`;
+    let bigList = document.createElement("ul");
+
+    output.innerHTML = "";
+
+    // generating babbles
+    for (let i = 0; i < num; i++){
+
+        let li = document.createElement("li");
+        li.innerText = `${words1[getRandom(words1.length)]}, ${words2[getRandom(words2.length)]}, ${words3[getRandom(words3.length)]}`;
+        bigList.appendChild(li);
+    }
+
+    output.appendChild(bigList);
+
 }
 
 function init() {
-    const button = document.querySelector("#myButton");
+    const button = document.querySelector("#my-button");
+    const button2 = document.querySelector("#bigger-button");
 
-    button.onclick = getWords;
+    button.addEventListener("click", ()=>{getWords(1)});
+    button2.addEventListener("click", ()=>{getWords(5)});
 }

@@ -6,7 +6,14 @@ body{
     font-size: 200%;
 }
 
-#myButton{
+#my-button{
+    width: 200px;
+    height: 50pt;
+    font-size: 15pt;
+}
+
+#bigger-button{
+    display: none;
     width: 200px;
     height: 50pt;
     font-size: 15pt;
@@ -101,5 +108,30 @@ h1 {
 
     #output {
         text-align: left;
+    }
+}
+
+/*big boy screen*/
+@media only screen and (min-width: 1408px){
+    body {
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    h1 {
+        background-color: #ff3860;
+    }
+
+    .container {
+        display: block;
+        margin: 1rem;
+    }
+
+    #output {
+        text-align: left;
+    }
+
+    #bigger-button{
+        display: inline;
     }
 }
