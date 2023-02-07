@@ -23,6 +23,11 @@ h1 {
     font-family: 'Didact Gothic', sans-serif;
 }
 
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+
 /*media queries*/
 
 /*phone*/

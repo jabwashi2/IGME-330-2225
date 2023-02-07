@@ -21,6 +21,8 @@ const loadJSONBabble = () => {
       words1 = babbles.words1;
       words2 = babbles.words2;
       words3 = babbles.words3;
+      getWords(1);
+
 
     };
 
@@ -28,7 +30,7 @@ const loadJSONBabble = () => {
       console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
 
 
-  }
+}
 
 const getWords = (num) => {
     let output = document.querySelector("#output");
@@ -58,4 +60,3 @@ const init = () => {
 
 window.addEventListener("load", loadJSONBabble);
 window.addEventListener("load", init);
-window.addEventListener("load", () => { getWords(1)});
