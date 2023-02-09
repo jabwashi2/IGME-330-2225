@@ -46,7 +46,7 @@
 
 			// rectangle (the hard way)
 			ctx.fillStyle = "yellow";
-			ctx.strokeStyle = "magenta";
+			ctx.strokeStyle = "purple";
 			ctx.lineWidth = 10;
 			ctx.beginPath();
 			ctx.rect(220,220,200,100);
@@ -55,7 +55,7 @@
 			ctx.stroke();
 
 			// circle 1
-			ctx.fillStyle = "black";
+			ctx.fillStyle = "purple";
 			ctx.strokeStyle = "white";
 			ctx.lineWidth = 5;
 			ctx.beginPath();
@@ -70,8 +70,8 @@
 			ctx.moveTo(25,150);
 			ctx.lineTo(200,150);
 
-			ctx.moveTo(103,200);
-			ctx.lineTo(235,250);
+			ctx.moveTo(300,200);
+			ctx.lineTo(400,250);
 
 			ctx.closePath();
 			ctx.stroke();
@@ -81,12 +81,37 @@
 			ctx.strokeStyle = "white";
 			ctx.lineWidth = 2;
 			ctx.beginPath();
-			ctx.arc(400,250,50,0,Math.PI,false);
+			ctx.arc(325,290,50,0,Math.PI,false);
 			ctx.closePath();
 			ctx.fill();
 			ctx.stroke();
 
+			// 'eyes'
 
+			ctx.fillStyle = "black";
+			ctx.strokeStyle = "white";
+			ctx.lineWidth = 5;
+			ctx.beginPath();
+			ctx.arc(300,250,15,0,2*Math.PI,false);
+			ctx.closePath();
+			ctx.fill();
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.arc(340,250,15,0,2*Math.PI,false);
+			ctx.closePath();
+			ctx.fill();
+			ctx.stroke();
+
+			// big chonky line
+
+			ctx.strokeStyle = "yellow"
+			ctx.lineWidth = 20;
+			ctx.beginPath();
+			ctx.moveTo(20,150);
+			ctx.lineTo(620,150);
+			ctx.closePath();
+			ctx.stroke();
 		}
 	</script>
 </head>
