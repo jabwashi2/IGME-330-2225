@@ -61,10 +61,10 @@
                 ctx.stroke();
             }
 			
-			// grid
+			// grid; program looks really cool without the grid, too
 			for (let y = 0; y <= 480; y += 20){
                 for (let x = 0; x <= 640; x += 20){
-                    ctx.strokeStyle = "black"; // maybe make it invisible?
+                    ctx.strokeStyle = "black";
                     ctx.lineWidth = 2;
                     ctx.strokeRect(x, y, 16, 16);
                     if (Math.random() < .1){
