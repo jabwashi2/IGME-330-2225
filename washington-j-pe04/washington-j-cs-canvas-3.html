@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>First Canvas</title>
+	<style>
+	canvas{
+		border:1px solid gray;
+	}
+	</style>
+	<script>
+		// #0 - in this class we will always use ECMAScript 5's "strict" mode
+		// See what 'use strict' does here:
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
+		"use strict";
+		
+		// #1 call the `init` function after the pages loads
+		window.onload = init;
+
+        let ctx;
+	
+		function init(){
+			console.log("page loaded!");
+			// #2 Now that the page has loaded, start drawing!
+			
+			// A - `canvas` variable points at <canvas> tag
+			let canvas = document.querySelector("canvas");
+			
+			// B - the `ctx` variable points at a "2D drawing context"
+			ctx = canvas.getContext("2d");
+			
+			// C - all fill operations are now in black
+			ctx.fillStyle = "#61b1d4"; 
+            ctx.fillRect(0,0,640,480); 
+
+            update();
+		}
+	
+        function update(){
+            requestAnimationFrame(update);
+            drawRandomRect(ctx);
+            drawRandomArc();
+        }
+       
+        // handy helper functions!
+        function getRandomColor(){
+            function getByte(){
+                return 55 + Math.round(Math.random() * 200);
+            }
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+        }
+
+        function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function drawRandomRect(ctx) {
+            ctx.fillStyle = getRandomColor();
+            ctx.strokeStyle = getRandomColor();
+            ctx.lineWidth = getRandomInt(1,3);
+            ctx.beginPath();
+            ctx.rect(getRandomInt(0,640),getRandomInt(0,480),getRandomInt(2,15),getRandomInt(2,20));
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function drawRandomArc(){
+            ctx.fillStyle = getRandomColor();
+			ctx.strokeStyle = getRandomColor();
+			ctx.lineWidth = getRandomInt(1,5);
+			ctx.beginPath();
+			ctx.arc(getRandomInt(0,640),getRandomInt(0,480),getRandomInt(10,20),getRandomInt(0,15),2*Math.PI,false);
+			ctx.closePath();
+			ctx.fill();
+			ctx.stroke();
+        }
+    
+    </script>
+</head>
+<body>
+	<canvas width="640" height="480">
+		Get a real browser!
+	</canvas>
+</body>
+</html>
