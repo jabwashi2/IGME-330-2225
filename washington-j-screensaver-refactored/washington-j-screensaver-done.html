@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Screensaver</title>
+	<style>
+	canvas{
+		border:1px solid gray;
+	}
+
+    body{
+        font-family: sans-serif;
+    }
+        
+    button{
+        font-size:1.2em;
+    }
+        
+    section{
+        margin:.5em 0 .5em 0;
+    }
+
+	</style>
+	<script>
+		// #0 - in this class we will always use ECMAScript 5's "strict" mode
+		// See what 'use strict' does here:
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
+		"use strict";
+		
+		// #1 call the `init` function after the pages loads
+		window.onload = init;
+
+        let ctx;
+        let paused = false;
+        let clearScreen = false;
+        let canvas;
+        let createRectangles = true;
+        let createArcs = true;
+        let createLines = true;
+	
+		function init(){
+			console.log("page loaded!");
+			// A - `canvas` variable points at <canvas> tag
+			canvas = document.querySelector("canvas");
+			
+			// B - the `ctx` variable points at a "2D drawing context"
+			ctx = canvas.getContext("2d");
+			
+			// C - all fill operations are now in black
+			ctx.fillStyle = "#61b1d4"; 
+            ctx.fillRect(0,0,640,480); 
+
+            // drawing stuff
+            drawRectangle(ctx,20,20,600,440);
+            drawRectangle(ctx,120,90,400,300,"rgba(255,255,255,.9)");
+            drawRectangle(ctx,170,170,300,200,"black",10,"yellow");
+            drawRectangle(ctx,220,220,200,100,"yellow",10,"purple");
+            
+            drawArc(ctx,220,120,15,0,2*Math.PI,"purple",5,"white");
+
+            drawLine(ctx,25,150,200,150,5,"orange");
+            drawLine(ctx,300,200,400,250,5,"orange");
+
+            drawArc(ctx,325,290,50,0,Math.PI,"purple",2,"white");
+            drawArc(ctx,300,250,15,0,2*Math.PI,"black",5,"white");
+            drawArc(ctx,340,250,15,0,2*Math.PI,"black",5,"white");
+
+            drawLine(ctx,20,150,620,150,20,"yellow");
+
+            setupUI();
+
+            update();
+		}
+	
+        function update(){
+            if (paused) return;
+            
+            requestAnimationFrame(update);
+            if (createArcs) drawRandomArc();
+            if (createLines) drawRandomLine();
+
+            if (createRectangles) drawRandomRect(ctx);
+
+        }
+       
+        // utility!
+        function getRandomColor(){
+            function getByte(){
+                return 55 + Math.round(Math.random() * 200);
+            }
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+        }
+
+        function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function drawRandomRect(ctx) {
+            //drawRectangle(ctx,x,y,width, height,fillStyle="black",lineWidth=0,strokeStyle="black");
+            drawRectangle(ctx,getRandomInt(0,640),getRandomInt(0,480),getRandomInt(2,15),getRandomInt(2,20),getRandomColor(),getRandomInt(1,3),getRandomColor());
+        }
+
+        function drawRandomArc(){
+            drawArc(ctx,getRandomInt(0,640),getRandomInt(0,480),getRandomInt(10,20),getRandomInt(0,15),2*Math.PI,getRandomColor());
+        }
+
+        function drawRandomLine(){
+            drawLine(ctx,getRandomInt(40,400),getRandomInt(40,400),getRandomInt(40,400),getRandomInt(40,400),getRandomInt(1,5),getRandomColor());
+        }
+
+        // event handlers!
+        function canvasClicked(e){
+            let rect = e.target.getBoundingClientRect();
+            let mouseX = e.clientX - rect.x;
+            let mouseY = e.clientY - rect.y;
+            console.log(mouseX,mouseY);
+
+            for (let i = 0; i < 10; i++){
+                let x = getRandomInt(-100,100) + mouseX;
+                let y = getRandomInt(-100,100) + mouseY;
+                let radius = getRandomInt(10,20);
+                let color = getRandomColor();
+                drawArc(ctx,x,y,radius,0,2*Math.PI,color,0,color);
+            }
+        }
+
+        // canvas helpers
+        function drawRectangle(ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black"){
+            ctx.save();
+            ctx.fillStyle = fillStyle;
+            ctx.beginPath();
+            ctx.rect(x,y,width,height);
+            ctx.fill();
+            if (lineWidth > 0){
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = strokeStyle;
+                ctx.stroke();
+            }
+            ctx.closePath();
+            ctx.restore();
+        }
+
+        function drawArc(ctx,x,y,radius,startAngle=0,endAngle=Math.PI*2,fillStyle="black",lineWidth=0,strokeStyle="black"){
+            ctx.save();
+            ctx.fillStyle = fillStyle;
+			ctx.beginPath();
+			ctx.arc(x,y,radius,startAngle,endAngle,false);
+            ctx.fill();
+            if (lineWidth > 0){
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = strokeStyle;		
+			    ctx.stroke();
+            }
+            ctx.closePath();
+            ctx.restore();
+        }
+
+        function drawLine(ctx,x1,y1,x2,y2,lineWidth=1,strokeStyle="black"){
+            ctx.save();
+			ctx.beginPath();
+
+			ctx.moveTo(x1,y1);
+			ctx.lineTo(x2,y2);
+
+            if (lineWidth > 0){
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = strokeStyle;
+                ctx.stroke();
+            }
+			ctx.closePath();
+            ctx.restore();
+			
+
+        }
+            
+        // helpers
+        function setupUI() {
+            document.querySelector("#btnPause").onclick = function(){
+                paused = true;
+                clearScreen = false;
+            };
+
+            document.querySelector("#btnPlay").onclick = function(){
+               if (paused){
+                clearScreen = false;
+                paused = false;
+                update();
+               }
+            }
+            document.querySelector("#btnClear").onclick = function(){
+                clearScreen = true;
+                if (clearScreen){
+                ctx.fillStyle = "#61b1d4"; 
+                ctx.fillRect(0,0,640,480); 
+                }
+            }
+
+            document.querySelector("#cbRectangles").onclick = function(e){
+                createRectangles = e.target.checked;
+            }
+            document.querySelector("#cbArcs").onclick = function(e){
+                createArcs = e.target.checked;
+            }            
+            document.querySelector("#cbLines").onclick = function(e){
+                createLines = e.target.checked;
+            }
+
+            canvas.onclick = canvasClicked;
+
+        }
+
+    </script>
+</head>
+
+<body>
+
+	<canvas width="640" height="480">
+		Get a real browser!
+	</canvas>
+
+    <section>
+        <button id="btnPlay">Play</button>
+        <button id="btnPause">Pause</button>
+        <button id="btnClear">Clear</button>
+    </section>
+
+    <section>
+        <span>
+            <input type="checkbox" id="cbRectangles" checked>
+            <label for="cbRectangles">Rectangles</label>
+        </span>
+        <span>
+            <input type="checkbox" id="cbArcs" checked>
+            <label for="cbArcs">Arcs!</label>
+        </span>       
+        <span>
+            <input type="checkbox" id="cbLines" checked>
+            <label for="cbLines">Lines!</label>
+        </span>
+        
+    </section>
+
+      <section>
+        <p>Click on the screen to "spraypaint" rectangles (you probably want the screensaver to be paused)</p>
+      </section>
+
+</body>
+
+</html>
