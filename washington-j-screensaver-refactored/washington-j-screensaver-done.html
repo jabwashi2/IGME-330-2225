@@ -89,7 +89,7 @@
             function getByte(){
                 return 55 + Math.round(Math.random() * 200);
             }
-            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+            return `rgba(${getByte()},${getByte()},${getByte()},.8)`;
         }
 
         const getRandomInt = (min, max) => {
@@ -97,7 +97,6 @@
         }
 
         const drawRandomRect = (ctx) => {
-            //drawRectangle(ctx,x,y,width, height,fillStyle="black",lineWidth=0,strokeStyle="black");
             drawRectangle(ctx,getRandomInt(0,640),getRandomInt(0,480),getRandomInt(2,15),getRandomInt(2,20),getRandomColor(),getRandomInt(1,3),getRandomColor());
         }
 
