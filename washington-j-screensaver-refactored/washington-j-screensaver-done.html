@@ -27,8 +27,7 @@
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
 		"use strict";
 		
-		// #1 call the `init` function after the pages loads
-		window.onload = init;
+		// #1 call the `init` function after the pages load
 
         let ctx;
         let paused = false;
@@ -38,7 +37,7 @@
         let createArcs = true;
         let createLines = true;
 	
-		function init(){
+		const init = () => {
 			console.log("page loaded!");
 			// A - `canvas` variable points at <canvas> tag
 			canvas = document.querySelector("canvas");
@@ -71,8 +70,10 @@
 
             update();
 		}
+
+        window.addEventListener("load", init);
 	
-        function update(){
+        const update = () => {
             if (paused) return;
             
             requestAnimationFrame(update);
@@ -84,32 +85,32 @@
         }
        
         // utility!
-        function getRandomColor(){
+        const getRandomColor = () => {
             function getByte(){
                 return 55 + Math.round(Math.random() * 200);
             }
             return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
         }
 
-        function getRandomInt(min, max) {
+        const getRandomInt = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        function drawRandomRect(ctx) {
+        const drawRandomRect = (ctx) => {
             //drawRectangle(ctx,x,y,width, height,fillStyle="black",lineWidth=0,strokeStyle="black");
             drawRectangle(ctx,getRandomInt(0,640),getRandomInt(0,480),getRandomInt(2,15),getRandomInt(2,20),getRandomColor(),getRandomInt(1,3),getRandomColor());
         }
 
-        function drawRandomArc(){
+        const drawRandomArc = () => {
             drawArc(ctx,getRandomInt(0,640),getRandomInt(0,480),getRandomInt(10,20),getRandomInt(0,15),2*Math.PI,getRandomColor());
         }
 
-        function drawRandomLine(){
+        const drawRandomLine = () => {
             drawLine(ctx,getRandomInt(40,400),getRandomInt(40,400),getRandomInt(40,400),getRandomInt(40,400),getRandomInt(1,5),getRandomColor());
         }
 
         // event handlers!
-        function canvasClicked(e){
+        const canvasClicked = (e) => {
             let rect = e.target.getBoundingClientRect();
             let mouseX = e.clientX - rect.x;
             let mouseY = e.clientY - rect.y;
@@ -125,7 +126,7 @@
         }
 
         // canvas helpers
-        function drawRectangle(ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black"){
+        const drawRectangle = (ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black") => {
             ctx.save();
             ctx.fillStyle = fillStyle;
             ctx.beginPath();
@@ -140,7 +141,7 @@
             ctx.restore();
         }
 
-        function drawArc(ctx,x,y,radius,startAngle=0,endAngle=Math.PI*2,fillStyle="black",lineWidth=0,strokeStyle="black"){
+        const drawArc = (ctx,x,y,radius,startAngle=0,endAngle=Math.PI*2,fillStyle="black",lineWidth=0,strokeStyle="black") => {
             ctx.save();
             ctx.fillStyle = fillStyle;
 			ctx.beginPath();
@@ -155,7 +156,7 @@
             ctx.restore();
         }
 
-        function drawLine(ctx,x1,y1,x2,y2,lineWidth=1,strokeStyle="black"){
+        const drawLine = (ctx,x1,y1,x2,y2,lineWidth=1,strokeStyle="black") => {
             ctx.save();
 			ctx.beginPath();
 
@@ -174,20 +175,20 @@
         }
             
         // helpers
-        function setupUI() {
-            document.querySelector("#btnPause").onclick = function(){
+        const setupUI = () => {
+            document.querySelector("#btn-pause").onclick = function(){
                 paused = true;
                 clearScreen = false;
             };
 
-            document.querySelector("#btnPlay").onclick = function(){
+            document.querySelector("#btn-play").onclick = function(){
                if (paused){
                 clearScreen = false;
                 paused = false;
                 update();
                }
             }
-            document.querySelector("#btnClear").onclick = function(){
+            document.querySelector("#btn-clear").onclick = function(){
                 clearScreen = true;
                 if (clearScreen){
                 ctx.fillStyle = "#61b1d4"; 
@@ -195,13 +196,13 @@
                 }
             }
 
-            document.querySelector("#cbRectangles").onclick = function(e){
+            document.querySelector("#cb-rectangles").onclick = function(e){
                 createRectangles = e.target.checked;
             }
-            document.querySelector("#cbArcs").onclick = function(e){
+            document.querySelector("#cb-arcs").onclick = function(e){
                 createArcs = e.target.checked;
             }            
-            document.querySelector("#cbLines").onclick = function(e){
+            document.querySelector("#cb-lines").onclick = function(e){
                 createLines = e.target.checked;
             }
 
@@ -219,23 +220,23 @@
 	</canvas>
 
     <section>
-        <button id="btnPlay">Play</button>
-        <button id="btnPause">Pause</button>
-        <button id="btnClear">Clear</button>
+        <button id="btn-play">Play</button>
+        <button id="btn-pause">Pause</button>
+        <button id="btn-clear">Clear</button>
     </section>
 
     <section>
         <span>
-            <input type="checkbox" id="cbRectangles" checked>
-            <label for="cbRectangles">Rectangles</label>
+            <input type="checkbox" id="cb-rectangles" checked>
+            <label for="cb-rectangles">Rectangles</label>
         </span>
         <span>
-            <input type="checkbox" id="cbArcs" checked>
-            <label for="cbArcs">Arcs!</label>
+            <input type="checkbox" id="cb-arcs" checked>
+            <label for="cb-arcs">Arcs!</label>
         </span>       
         <span>
-            <input type="checkbox" id="cbLines" checked>
-            <label for="cbLines">Lines!</label>
+            <input type="checkbox" id="cb-lines" checked>
+            <label for="cb-lines">Lines!</label>
         </span>
         
     </section>
