@@ -1,4 +1,4 @@
-import {getRandom} from "/src/utils.js";
+import {getRandom} from "./utils.js";
 
 let words1 = [];
 let words2 = [];
