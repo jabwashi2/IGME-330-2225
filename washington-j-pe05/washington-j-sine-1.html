@@ -25,7 +25,8 @@
         let increase = (Math.PI*2) / 100;
         for (let i = 0; i < 1; i += .01){
             x = i;
-            y = Math.sin(angle);
+            y = Math.sin(angle) / 2 + 0.5;
+			drawCircle(ctx,x * canvasWidth,canvasHeight/2 + (y * 100),2,"white");
             angle += increase;
         }
     }
