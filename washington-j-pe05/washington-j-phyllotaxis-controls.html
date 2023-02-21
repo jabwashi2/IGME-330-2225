@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Sine Start</title>
+	<style>canvas{ border: 1px solid black; }</style>
+	<script>
+	"use strict";
+	const canvasWidth = 400, canvasHeight = 300;
+    const fps = 60;
+    const divergence = 137.5;
+    const c = 4;
+
+	let ctx;
+    let n = 0;
+    let radius = 2;
+    let radiusOffset = .8;
+
+    window.onload = init;
+
+
+
+	function init(){
+		ctx = canvas.getContext("2d");
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+		ctx.fillRect(0,0,canvasWidth,canvasHeight);
+        loop();
+	}
+
+    function loop(){
+        setTimeout(loop,1000/fps);
+        // each frame draw a new dot
+        // `a` is the angle
+        // `r` is the radius from the center (e.g. "Pole") of the flower
+        // `c` is the "padding/spacing" between the dots
+        let a = n * dtr(divergence);
+        let r = c * Math.sqrt(n);
+
+        // now calculate the `x` and `y`
+        let x = r * Math.cos(a) + canvasWidth/2;
+        let y = r * Math.sin(a) + canvasHeight/2;
+
+        let aDegrees = (n * divergence) % 361;
+
+        // color options
+        let PPB1 = `rgb(${n % 256},0,255)`;
+        let PPB2 = `rgb(${aDegrees},0,255)`;
+        let RGB1 = `hsl(${n/5 % 361},100%,50%)`;
+        let RGB2 = `hsl(${aDegrees},100%,50%)`;
+        //const colorOptions = [PPB1, PPB2, RGB1, RGB2];
+        const colorOptions = {PPB1:PPB1, PPB2:PPB2, RGB1:RGB1, RGB2:RGB2};
+
+        let color = colorOptions["PPB1"];
+        //console.log(color)
+
+        // access the dropdown
+        let chosenColor = document.querySelector("#color-select").value;
+        //console.log(chosenColor);
+
+        // finding the chosen color
+        if (chosenColor in colorOptions)
+        {
+            color = colorOptions[chosenColor];
+        }
+
+        // my silly little things (the NOW DO IT section)
+        // changing the radius (makes a cool little galaxy effect)
+        radius -= radiusOffset;
+        if (radius <= 0) radius = 2;
+
+        // 10% chance that a circle will be white (stars for the galaxy)
+        if (Math.random() * 10 <= 2){
+            color = "white";
+            radius = radiusOffset;
+        }
+
+        drawCircle(ctx,x,y,radius,color);       
+
+        n++;
+    }
+
+
+	// helpers
+	function dtr(degrees){
+		return degrees * (Math.PI/180);
+	}
+
+	function drawCircle(ctx,x,y,radius,color){
+		ctx.save();
+		ctx.fillStyle = color;
+		ctx.beginPath();
+		ctx.arc(x,y,radius,0,Math.PI * 2);
+		ctx.closePath();
+		ctx.fill();
+		ctx.restore();
+	}
+
+    function reset(){
+        ctx.fillStyle = "black"; 
+        ctx.fillRect(0,0,640,480);
+        n = 0;
+    }
+
+    function getColor(){
+
+    }
+    
+
+	</script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="controls">
+        <label>Color Changing!</label>
+        <select id="color-select" onchange="reset()">
+            <option value="PPB1">PPB 1</option>
+            <option value="PPB2">PPB 2</option>
+            <option value="RGB1">RGB 1</option>
+            <option value="RGB2">RGB 2</option>
+        </select>
+
+        <button id="reset-btn" onclick="reset()">Reset!</button>
+    </div>
+</body>
+</html>
