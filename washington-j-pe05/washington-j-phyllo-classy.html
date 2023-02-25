@@ -8,17 +8,35 @@
 	"use strict";
 	const canvasWidth = 600, canvasHeight = 500;
     const fps = 60;
-    const divergence = 137.5;
-    const c = 4;
 
 	let ctx;
-    let n = 0;
     let radius = 2;
     let radiusOffset = .8;
 
     window.onload = init;
 
+    // let centerX = canvasWidth/2;
+    // let centerY = canvasHeight/2;
 
+    // const divergence = 137.5;
+    // const c = 4;
+
+    // making the phylloflower class
+    class PhylloFlower{
+        constructor(n = 0, centerX, centerY, divergence, c){
+            this.n = n;
+            this.centerX = centerX;
+            this.centerY = centerY;
+            this.divergence = divergence;
+            this.c = c;
+        }
+
+        draw = (ctx) => {
+
+
+        }
+
+    }
 
 	function init(){
 		ctx = canvas.getContext("2d");
@@ -30,53 +48,26 @@
 
     function loop(){
         setTimeout(loop,1000/fps);
-        // each frame draw a new dot
-        // `a` is the angle
-        // `r` is the radius from the center (e.g. "Pole") of the flower
-        // `c` is the "padding/spacing" between the dots
         let a = n * dtr(divergence);
         let r = c * Math.sqrt(n);
-
-        // now calculate the `x` and `y`
         let x = r * Math.cos(a) + canvasWidth/2;
         let y = r * Math.sin(a) + canvasHeight/2;
+        let aDegrees = (n * divergence) % 361; 
 
-        let aDegrees = (n * divergence) % 361;
-
-        // color options
-        let PPB1 = `rgb(${n % 256},0,255)`;
-        let PPB2 = `rgb(${aDegrees},0,255)`;
-        let RGB1 = `hsl(${n/5 % 361},100%,50%)`;
-        let RGB2 = `hsl(${aDegrees},100%,50%)`;
-        //const colorOptions = [PPB1, PPB2, RGB1, RGB2];
-        const colorOptions = {PPB1:PPB1, PPB2:PPB2, RGB1:RGB1, RGB2:RGB2};
-
-        let color = colorOptions["PPB1"];
-        //console.log(color)
-
-        // access the dropdown
-        let chosenColor = document.querySelector("#color-select").value;
-        //console.log(chosenColor);
-
-        // finding the chosen color
-        if (chosenColor in colorOptions)
-        {
-            color = colorOptions[chosenColor];
-        }
+        getColor(aDegrees);
 
         // my silly little things (the NOW DO IT section)
         // changing the radius (makes a cool little galaxy effect)
         radius -= radiusOffset;
         if (radius <= 0) radius = 2;
 
-        // 20% chance that a circle will be white (stars for the galaxy)
+        // 10% chance that a circle will be white (stars for the galaxy)
         if (Math.random() * 10 <= 2){
             color = "white";
             radius = radiusOffset;
         }
 
         drawCircle(ctx,x,y,radius,color);       
-
         n++;
     }
 
@@ -102,8 +93,24 @@
         n = 0;
     }
 
-    function getColor(){
+    function getColor(aDegrees){
+        // color options
+        let PPB1 = `rgb(${n % 256},0,255)`;
+        let PPB2 = `rgb(${aDegrees},0,255)`;
+        let RGB1 = `hsl(${n/5 % 361},100%,50%)`;
+        let RGB2 = `hsl(${aDegrees},100%,50%)`;
+        const colorOptions = {PPB1:PPB1, PPB2:PPB2, RGB1:RGB1, RGB2:RGB2};
 
+        let color = colorOptions["PPB1"];
+
+        // access the dropdown
+        let chosenColor = document.querySelector("#color-select").value;
+
+        // finding the chosen color
+        if (chosenColor in colorOptions)
+        {
+            color = colorOptions[chosenColor];
+        }
     }
     
 
