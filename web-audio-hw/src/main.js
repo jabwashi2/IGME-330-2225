@@ -111,6 +111,6 @@ function loop(){
       console.log(`maxLoudness = ${maxLoudness}`);
       console.log(`loudnessAt2K = ${loudnessAt2K}`);
       console.log("---------------------");
-  }
+}
 
 export {init};
