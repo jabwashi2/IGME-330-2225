@@ -15,6 +15,8 @@ const noiseCheckBox = document.querySelector("#noiseCB");
 const circleCheckBox = document.querySelector("#circlesCB");
 const barsCheckBox = document.querySelector("#barsCB");
 const gradientCheckBox = document.querySelector("#gradientCB");
+const invertCheckbox = document.querySelector("#invertCB");
+const embossCheckbox = document.querySelector("#embossCB");
 
 function setupCanvas(canvasElement,analyserNodeRef){
 	// create drawing context
@@ -52,9 +54,6 @@ function draw(params={}){
             ctx.restore();
         }
     }
-    else{
-        !params.showGradient;
-    }
 
     // 4 - draw bars
     if (barsCheckBox.checked){
@@ -78,9 +77,6 @@ function draw(params={}){
     
             ctx.restore();
         }
-    }
-    else{
-        !params.showBars;
     }
 
 	// 5 - draw circles
@@ -120,9 +116,6 @@ function draw(params={}){
             ctx.restore();
         }
     }
-    else{
-        !params.showCircles;
-    }
 
     // 6 - bitmap manipulation
 	// TODO: right now. we are looping though every pixel of the canvas (320,000 of them!), 
@@ -134,15 +127,15 @@ function draw(params={}){
 	// `imageData.data` is a `Uint8ClampedArray()` typed array that has 1.28 million elements!
 	// the variable `data` below is a reference to that array 
 
-    if (noiseCheckBox.checked){
-        let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-        let data = imageData.data;
-        let length = data.length;
-        let width = imageData.width; // not using here
+    let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+    let data = imageData.data;
+    let length = data.length;
+    let width = imageData.width; // not using here
 
-        // B) Iterate through each pixel, stepping 4 elements at a time (which is the RGBA for 1 pixel)
-        for (let i = 0; i < length; i += 4) {    
-            // C) randomly change every 20th pixel to red
+    // B) Iterate through each pixel, stepping 4 elements at a time (which is the RGBA for 1 pixel)
+    for (let i = 0; i < length; i += 4) {    
+        // C) randomly change every 20th pixel to red
+        if (noiseCheckBox.checked){
             if (params.showNoise && Math.random() < .05){
                 // data[i] is the red channel
                 // data[i+1] is the green channel
@@ -153,11 +146,34 @@ function draw(params={}){
                 data[i] = data[i+1] = data[i+2] = 0;// zero out the red, green and blue channels
                 data[i] = 255; //make the red channel 100% red
             } // end if
-        } // end for
-        
-        // D) copy image data back to canvas
-        ctx.putImageData(imageData, 0, 0);
+        }
+
+        // invert?
+        if(invertCheckbox.checked){
+            if (params.showInvert){
+                let red = data[i], green = data[i+1], blue = data[i+2];
+                data[i] = 255 - red; // set red
+                data[i+1] = 255 - green; // set green
+                data[i+2] = 255 - blue; // set blue
+                //data[i+3] is the alpha, but we're leaving that alone
+            }
+        }
+
+    } // end for
+
+    // embossing things
+    if(embossCheckbox.checked){
+        if(params.showEmboss){
+            for (let i = 0; i < length; i++){
+                if (i%4 == 3) continue; // skip alpha channel
+                data[i] = 127 + 2*data[i] - data[i+4] - data [i + width*4];
+            }
+        }
     }
+    
+    // D) copy image data back to canvas
+    ctx.putImageData(imageData, 0, 0);
+    
 }
 
 export {setupCanvas,draw};
