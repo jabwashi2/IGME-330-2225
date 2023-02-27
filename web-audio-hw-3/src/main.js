@@ -38,13 +38,13 @@ function setupUI(canvasElement){
   // A - hookup fullscreen button
   const fsButton = document.querySelector("#fsButton");
 	
-  // add .onclick event to button
+  // add .onclick event to fullscreen button
   fsButton.onclick = e => {
     console.log("init called");
     utils.goFullscreen(canvasElement);
   };
 
-  // add .onclick event to button
+  // add .onclick event to play button
   playButton.onclick = e =>{
     console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
     
@@ -104,24 +104,6 @@ function loop(){
     
     // 2) populate the array of audio data *by reference* (i.e. by its address)
     audio.analyserNode.getByteFrequencyData(audioData);
-    
-    // 3) log out the array and the average loudness (amplitude) of all of the frequency bins
-    //console.log(audioData);
-    
-    // console.log("-----Audio Stats-----");
-    // let totalLoudness =  audioData.reduce((total,num) => total + num);
-    // let averageLoudness =  totalLoudness/(audio.analyserNode.fftSize/2);
-    // let minLoudness =  Math.min(...audioData); // ooh - the ES6 spread operator is handy!
-    // let maxLoudness =  Math.max(...audioData); // ditto!
-    // // Now look at loudness in a specific bin
-    // // 22050 kHz divided by 128 bins = 172.23 kHz per bin
-    // // the 12th element in array represents loudness at 2.067 kHz
-    // let loudnessAt2K = audioData[11]; 
-    // console.log(`averageLoudness = ${averageLoudness}`);
-    // console.log(`minLoudness = ${minLoudness}`);
-    // console.log(`maxLoudness = ${maxLoudness}`);
-    // console.log(`loudnessAt2K = ${loudnessAt2K}`);
-    // console.log("---------------------");
 }
 
 export {init};
