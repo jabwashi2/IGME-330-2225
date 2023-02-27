@@ -9,15 +9,6 @@
 
 import * as utils from './utils.js';
 import * as audio from './audio.js';
-import * as canvas from './canvas.js';
-
-// drawParams object
-const drawParams = {
-  showGradient : true,
-  showBars : true,
-  showCircles : true,
-  showNoise : true
-};
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
