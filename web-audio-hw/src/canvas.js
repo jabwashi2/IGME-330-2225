@@ -48,9 +48,29 @@ function draw(params={}){
     }
 
 	// 4 - draw bars
-	
+	if (params.showBars){
+        let barSpacing = 4;
+        let margin = 5;
+        let screenWidthForBars = canvasWidth - (audioData.length * barSpacing) - margin * 2;
+        let barWidth = screenWidthForBars / audioData.length;
+        let barHeight = 200;
+        let topSpacing = 100;
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(255,255,255,0.50)';
+        ctx.strokeStyle = 'rgba(0,0,0,0.50)';
+
+        // loop through the data and draw!
+        for (let i=0; i<audioData.length; i++){
+            ctx.fillRect(margin + i * (barWidth + barSpacing), topSpacing + 256-audioData[i], barWidth, barHeight);
+            ctx.strokeRect(margin + i *(barWidth + barSpacing), topSpacing + 256-audioData[i], barWidth, barHeight);
+        }
+
+        ctx.restore();
+    }
+
 	// 5 - draw circles
-		
+	
 }
 
 export {setupCanvas,draw};
