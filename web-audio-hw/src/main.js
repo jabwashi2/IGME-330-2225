@@ -69,6 +69,17 @@ function setupUI(canvasElement){
 
   // set value of label to match initial value of slider
   volumeSlider.dispatchEvent(new Event("input"));
+
+  // D - hookup track <select>
+  let trackSelect = document.querySelector("#trackSelect");
+  // add .onchange event to <select>
+  trackSelect.onchange = e => {
+    audio.loadSoundFile(e.target.value);
+    // pause the current track if it is playing
+    if (playButton.dataset.playing == "yes"){
+      playButton.dispatchEvent(new MouseEvent("click"));
+    }
+  }
 	
 } // end setupUI
 
