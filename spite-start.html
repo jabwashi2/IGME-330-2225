@@ -9,36 +9,40 @@
 
         class CircleSprite{
             static type = "arc"; // demoing a static (class) variable here
-            constructor(x,y,radius,color){
+            constructor(x=0,y=0,radius=10,color="purple"){
                 console.log(`${this.constructor.type} created`); // access static property (alternatively, CircleSprite.type)
                 // YOU DO THIS - initialize .x, .y, .radius and .color properties
 
-                this.x = x;
-                this.y = y;
-                this.radius = radius;
-                this.color = color;
+                // this.x = x;
+                // this.y = y;
+                // this.radius = radius;
+                // this.color = color;
+                Object.assign(this, {x,y,radius,color});
             
             }
             
             update(){
                 // YOU DO THIS - increase the .x, and .y properties by 1
-                this.x += 1;
-                this.y += 1;
+                if (this.x >= canvasWidth && this.y >= canvasHeight){
+                    this.x--;
+                    this.y--;
+                }
+                else{
+                    this.x++;
+                    this.y++;
+                }
             }
             
             draw(ctx){
                 // YOU DO THIS 
                 // fill a circle - utilize the ctx argument, and the .x, .y, .radius and .color properties
                 // don't forget about ctx.save() and ctx.restore()
-
-                ctx.fillStyle = this.color;
-
                 ctx.save();
                 ctx.beginPath();
-
                 ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,false);
-
                 ctx.closePath();
+                ctx.fillStyle = this.color;
+                ctx.fill();
                 ctx.restore();
             }
         }
@@ -68,6 +72,7 @@
 
             sprites.push(circle1);
             sprites.push(circle2);
+            // new CircleSprite({x:100, y:100, radius:20, color:"green"});
             loop();
         };
         
