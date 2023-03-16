@@ -11,14 +11,14 @@ import * as utils from './utils.js';
 
 let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
 
-const noiseCheckBox = document.querySelector("#noiseCB");
-const circleCheckBox = document.querySelector("#circlesCB");
-const barsCheckBox = document.querySelector("#barsCB");
-const gradientCheckBox = document.querySelector("#gradientCB");
-const invertCheckbox = document.querySelector("#invertCB");
-const embossCheckbox = document.querySelector("#embossCB");
+const noiseCheckBox = document.querySelector("#cb-noise");
+const circleCheckBox = document.querySelector("#cb-circles");
+const barsCheckBox = document.querySelector("#cb-bars");
+const gradientCheckBox = document.querySelector("#cb-gradient");
+const invertCheckbox = document.querySelector("#cb-invert");
+const embossCheckbox = document.querySelector("#cb-emboss");
 
-function setupCanvas(canvasElement,analyserNodeRef){
+const setupCanvas = (canvasElement,analyserNodeRef) => {
 	// create drawing context
 	ctx = canvasElement.getContext("2d");
 	canvasWidth = canvasElement.width;
@@ -31,7 +31,7 @@ function setupCanvas(canvasElement,analyserNodeRef){
 	audioData = new Uint8Array(analyserNode.fftSize/2);
 }
 
-function draw(params={}){
+const draw = (params={}) => {
   // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
 	analyserNode.getByteFrequencyData(audioData);

@@ -3,7 +3,7 @@
 	and setting up the main event loop
 */
 
-// We will write the functions in this file in the traditional ES5 way
+// We will write the consts in this file in the traditional ES5 way
 // In this instance, we feel the code is more readable if written this way
 // If you want to re-write these as ES6 arrow functions, to be consistent with the other files, go ahead!
 
@@ -26,8 +26,8 @@ const DEFAULTS = Object.freeze({
 	sound1  :  "media/New Adventure Theme.mp3"
 });
 
-function init(){
-    audio.setupWebaudio(DEFAULTS.sound1);
+const init = () => {
+  audio.setupWebAudio(DEFAULTS.sound1);
 	console.log("init called");
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
 	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
@@ -36,10 +36,11 @@ function init(){
   loop();
 }
 
-function setupUI(canvasElement){
+const setupUI = (canvasElement) => {
   // A - hookup fullscreen button
-  const fsButton = document.querySelector("#fsButton");
-	
+  const fsButton = document.querySelector("#fs-button");
+	const playButton = document.querySelector("#play-button");
+
   // add .onclick event to fullscreen button
   fsButton.onclick = e => {
     console.log("init called");
@@ -69,8 +70,8 @@ function setupUI(canvasElement){
   };
 
   // C - hookup volume slider & label
-  let volumeSlider = document.querySelector("#volumeSlider");
-  let volumeLabel = document.querySelector("#volumeLabel");
+  let volumeSlider = document.querySelector("#slider-volume");
+  let volumeLabel = document.querySelector("#label-volume");
 
   // add .oninput event to slider
   volumeSlider.oninput = e =>{
@@ -84,7 +85,7 @@ function setupUI(canvasElement){
   volumeSlider.dispatchEvent(new Event("input"));
 
   // D - hookup track <select>
-  let trackSelect = document.querySelector("#trackSelect");
+  let trackSelect = document.querySelector("#track-select");
   // add .onchange event to <select>
   trackSelect.onchange = e => {
     audio.loadSoundFile(e.target.value);
@@ -96,7 +97,7 @@ function setupUI(canvasElement){
 	
 } // end setupUI
 
-function loop(){
+const loop = () => {
   /* NOTE: This is temporary testing code that we will delete in Part II */
     requestAnimationFrame(loop);
     canvas.draw(drawParams);
