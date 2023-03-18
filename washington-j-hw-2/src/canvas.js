@@ -222,6 +222,8 @@ const draw = (params={}) => {
             }
         }
     }
+
+    drawHeart(ctx,320,220);
     
     // D) copy image data back to canvas
     ctx.putImageData(imageData, 0, 0);
@@ -230,6 +232,10 @@ const draw = (params={}) => {
 
 // shape functions!
 const drawHeart = (ctx,x,y) => {
+
+    ctx.fillStyle = gradient
+    ctx.beginPath();
+
     //starting point
     ctx.moveTo(x, y);
 
