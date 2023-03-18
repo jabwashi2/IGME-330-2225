@@ -140,7 +140,7 @@ const draw = (params={}) => {
     for (let i = 0; i < length; i += 4) {    
         // C) randomly change every 20th pixel to red
         if (noiseCheckBox.checked){
-            if (params.showNoise && Math.random() < .05){
+            if (params.showNoise && Math.random() < .00009){
                 // data[i] is the red channel
                 // data[i+1] is the green channel
                 // data[i+2] is the blue channel
@@ -148,7 +148,7 @@ const draw = (params={}) => {
                 // zero out the red and green and blue channels
                 // make the red channel 100% red
                 data[i] = data[i+1] = data[i+2] = 0;// zero out the red, green and blue channels
-                data[i] = 255; //make the red channel 100% red
+                //data[i] = 255; //make the red channel 100% red
             } // end if
         }
 
