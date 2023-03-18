@@ -141,29 +141,45 @@ const draw = (params={}) => {
             for (let i=0; i<audioData.length; i++){
                 // red-ish circles
                 let percent = audioData[i] / 255;
+                console.log(`percent: ${percent}`);
                 let circleRadius = percent * maxRadius;
-    
-                ctx.beginPath();
-                ctx.fillStyle = utils.makeColor(255, 111, 111, .34 - percent/3.0);
-                ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius, 0, 2*Math.PI, false);
+                let newGradient = utils.getLinearGradient(ctx,(canvasWidth/2) - 50,(canvasHeight/2) - 50,(canvasWidth/2), (canvasHeight/2),[{percent:0,color:"#ff66e5"},{percent:.25,color:"#ffe6fb"},{percent:.5,color:"#ffe6fb"},{percent:.75,color:"#ffe6fb"},{percent:1,color:"#ff66e5"}]);
+                let centerX = canvasWidth/2;
+                let centerY = (canvasHeight/2) - 50;
+
+                // ctx.lineWidth = 6;
+                // ctx.strokeStyle = "pink";
+                // drawHeart(ctx,centerX,centerY,percent*1.5);
+                // ctx.stroke();
+
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = `rgba(255,230,251,.15)`;
+                ctx.fillStyle = newGradient;
+                drawHeart(ctx,centerX,centerY,percent);
                 ctx.fill();
-                ctx.closePath();
+                ctx.stroke();
+
+                // ctx.beginPath();
+                // ctx.fillStyle = utils.makeColor(255, 111, 111, .34 - percent/3.0);
+                // ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius, 0, 2*Math.PI, false);
+                // ctx.fill();
+                // ctx.closePath();
     
-                // blue-ish circles, bigger, more transparent
-                ctx.beginPath();
-                ctx.fillStyle = utils.makeColor(0, 0, 255, .10 - percent/10.0);
-                ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius * 1.5, 0, 2*Math.PI, false);
-                ctx.fill();
-                ctx.closePath();
+                // // blue-ish circles, bigger, more transparent
+                // ctx.beginPath();
+                // ctx.fillStyle = utils.makeColor(0, 0, 255, .10 - percent/10.0);
+                // ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius * 1.5, 0, 2*Math.PI, false);
+                // ctx.fill();
+                // ctx.closePath();
     
-                // yellow-ish circles, smaller
-                ctx.save();
-                ctx.beginPath();
-                ctx.fillStyle = utils.makeColor(200, 200, 0, .5 - percent/5.0);
-                ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius * .50, 0, 2 * Math.PI, false);
-                ctx.fill();
-                ctx.closePath();
-                ctx.restore();
+                // // yellow-ish circles, smaller
+                // ctx.save();
+                // ctx.beginPath();
+                // ctx.fillStyle = utils.makeColor(200, 200, 0, .5 - percent/5.0);
+                // ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius * .50, 0, 2 * Math.PI, false);
+                // ctx.fill();
+                // ctx.closePath();
+                // ctx.restore();
             }
             ctx.restore();
         }
@@ -221,20 +237,27 @@ const draw = (params={}) => {
                 data[i] = 127 + 2*data[i] - data[i+4] - data [i + width*4];
             }
         }
-    }
-
-    drawHeart(ctx,320,220);
-    
+    }    
     // D) copy image data back to canvas
     ctx.putImageData(imageData, 0, 0);
     
 }
 
 // shape functions!
-const drawHeart = (ctx,x,y) => {
-
-    ctx.fillStyle = gradient
+const drawHeart = (ctx,x,y,scale=1) => {
+    ctx.save();
     ctx.beginPath();
+
+    if (scale == 0){
+        scale = .01;
+    }
+
+    x = (x*scale)/scale;
+    y = (y*scale)/scale;
+    console.log(`x: ${x}, y: ${y}, scale: ${scale}`);
+
+    ctx.translate(x-(x*scale),y-(scale*y));
+    ctx.scale(scale,scale);
 
     //starting point
     ctx.moveTo(x, y);
@@ -251,6 +274,11 @@ const drawHeart = (ctx,x,y) => {
     ctx.quadraticCurveTo(x - 30, y - 40, x - 70, y - 40);
     ctx.arcTo(x - 130, y - 40, x - 130, y, 55);
     ctx.quadraticCurveTo(x - 130, y + 70, x, y + 170);
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    ctx.restore();
+
 }
 
 export {setupCanvas,draw};
