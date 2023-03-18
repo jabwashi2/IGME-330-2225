@@ -7,6 +7,10 @@
 	  - maybe a better name for this file/module would be *visualizer.js* ?
 */
 
+// colors
+// pink: #ff66e5; 255, 102, 229
+// offwhite: #ffe6fb; 255, 230, 251
+
 import * as utils from './utils.js';
 
 let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
@@ -24,7 +28,7 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 	canvasWidth = canvasElement.width;
 	canvasHeight = canvasElement.height;
 	// create a gradient that runs top to bottom
-	gradient = utils.getLinearGradient(ctx,0,0,0,canvasHeight,[{percent:0,color:"blue"},{percent:.25,color:"green"},{percent:.5,color:"yellow"},{percent:.75,color:"red"},{percent:1,color:"magenta"}]);
+	gradient = utils.getLinearGradient(ctx,0,0,0,canvasHeight,[{percent:0,color:"#ff66e5"},{percent:.25,color:"#ffe6fb"},{percent:.5,color:"#ffe6fb"},{percent:.75,color:"#ffe6fb"},{percent:1,color:"#ff66e5"}]);
 	// keep a reference to the analyser node
 	analyserNode = analyserNodeRef;
 	// this is the array where the analyser data will be stored

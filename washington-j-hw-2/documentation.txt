@@ -1,0 +1,7 @@
+personal notes:
+- JSON file
+    - music info will be array of objects
+    - objects have name of song + name of file
+        - songTitle, fileName
+
+- turn noise effect into makeshift particle effect...?

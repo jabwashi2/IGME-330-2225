@@ -30,6 +30,14 @@ const setupWebAudio = (filePath) => {
     // 4 - create an a source node that points at the <audio> element
     sourceNode = audioCtx.createMediaElementSource(element);
 
+    // biquad filter node: highshelf >:)
+	let hsBiquadFilter = audioCtx.createBiquadFilter();
+	hsBiquadFilter.type = "highshelf";
+
+	// biquad filter node: lowshelf >:)
+	let lsBiquadFilter = audioCtx.createBiquadFilter();
+	lsBiquadFilter.type = "lowshelf";
+
     // 5 - create an analyser node
     // note the UK spelling of "Analyser"
     analyserNode = audioCtx.createAnalyser();
@@ -52,7 +60,9 @@ const setupWebAudio = (filePath) => {
     gainNode.gain.value = DEFAULTS.gain;
 
     // 8 - connect the nodes - we now have an audio graph
-    sourceNode.connect(analyserNode);
+    sourceNode.connect(hsBiquadFilter);
+    hsBiquadFilter.connect(lsBiquadFilter);
+    lsBiquadFilter.connect(analyserNode);
     analyserNode.connect(gainNode);
     gainNode.connect(audioCtx.destination);
 }

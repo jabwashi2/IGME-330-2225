@@ -11,7 +11,7 @@ import * as utils from './utils.js';
 import * as audio from './audio.js';
 import * as canvas from './canvas.js';
 
-// drawParams object
+// drawParams object 
 const drawParams = {
   showGradient : true,
   showBars : true,
