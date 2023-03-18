@@ -22,6 +22,54 @@ const gradientCheckBox = document.querySelector("#cb-gradient");
 const invertCheckbox = document.querySelector("#cb-invert");
 const embossCheckbox = document.querySelector("#cb-emboss");
 
+class SparkleSprite{
+    cosntructor(x=0,y=0,scale=1){
+        this.x = x;
+        this.y = y;
+        this.scale = scale;
+    }
+
+    update(){
+        let startScale = scale;
+        if (scale >= startScale){
+            scale -= .01;
+        }
+        if (scale <= .1){
+            scale += .01;
+        }
+    }
+
+    draw(ctx){
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = "rgba(0,0,0,.15)";
+        ctx.fillStyle = "white";
+        ctx.scale(scale,scale);
+
+        // make sure to divide x and y by scale so the intended x and y positions are used
+
+        ctx.save();
+        ctx.beginPath();
+
+        // first half
+        ctx.moveTo(x/scale, y/scale);
+        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 50, y/scale - 50);
+        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 90, y/scale);
+
+        // second half
+        ctx.moveTo(x/scale,y/scale);
+        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 50, y/scale + 50);
+        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 90, y/scale);
+
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+        ctx.restore();
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+
+}
+
 const setupCanvas = (canvasElement,analyserNodeRef) => {
 	// create drawing context
 	ctx = canvasElement.getContext("2d");
@@ -178,6 +226,25 @@ const draw = (params={}) => {
     // D) copy image data back to canvas
     ctx.putImageData(imageData, 0, 0);
     
+}
+
+// shape functions!
+const drawHeart = (ctx,x,y) => {
+    //starting point
+    ctx.moveTo(x, y);
+
+    // right side
+    ctx.quadraticCurveTo(x + 30, y - 40, x + 70, y - 40);
+    ctx.arcTo(x + 130, y - 40, x + 130, y, 55);
+    ctx.quadraticCurveTo(x + 130, y + 70, x, y + 170);
+
+    // back to starting point
+    ctx.moveTo(x, y);
+
+    // left side
+    ctx.quadraticCurveTo(x - 30, y - 40, x - 70, y - 40);
+    ctx.arcTo(x - 130, y - 40, x - 130, y, 55);
+    ctx.quadraticCurveTo(x - 130, y + 70, x, y + 170);
 }
 
 export {setupCanvas,draw};
