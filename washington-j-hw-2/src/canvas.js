@@ -140,12 +140,10 @@ const draw = (params={}) => {
 	// 5 - draw circles
     if (circleCheckBox.checked){
         if (params.showCircles){
-            let maxRadius = canvasHeight/4;
             ctx.save();
             ctx.globalAlpha = 0.5;
             
             for (let i=0; i<audioData.length; i++){
-                // red-ish circles
                 let percent = audioData[i] / 255; 
                 let centerX = canvasWidth/2;
                 let centerY = (canvasHeight/2) - 50;
@@ -165,7 +163,6 @@ const draw = (params={}) => {
     let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
     let data = imageData.data;
     let length = data.length;
-    let width = imageData.width; // not using here
 
     // B) Iterate through each pixel, stepping 4 elements at a time (which is the RGBA for 1 pixel)
     for (let i = 0; i < length; i += 4) {    
@@ -179,7 +176,9 @@ const draw = (params={}) => {
                 // zero out the red and green and blue channels
                 // make the red channel 100% red
                 data[i] = data[i+1] = data[i+2] = 0;// zero out the red, green and blue channels
-                //data[i] = 255; //make the red channel 100% red
+                data[i] = 123; //make the red channel 100% red
+                data[i+1] = 3;
+                data[i+2] = 252;
             } // end if
         }
 
