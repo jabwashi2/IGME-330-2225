@@ -17,8 +17,7 @@ const drawParams = {
   showBars : true,
   showCircles : true,
   showNoise : true,
-  showInvert : true,
-  showEmboss : true
+  showInvert : true
 };
 
 // 1 - here we are faking an enumeration
@@ -100,6 +99,9 @@ const setupUI = (canvasElement) => {
 const loop = () => {
   /* NOTE: This is temporary testing code that we will delete in Part II */
     requestAnimationFrame(loop);
+
+    //canvas.clearScreen(document.querySelector("canvas"))
+
     canvas.draw(drawParams);
     // 1) create a byte array (values of 0-255) to hold the audio data
     // normally, we do this once when the program starts up, NOT every frame
@@ -107,6 +109,8 @@ const loop = () => {
     
     // 2) populate the array of audio data *by reference* (i.e. by its address)
     audio.analyserNode.getByteFrequencyData(audioData);
+
+
 }
 
 export {init};

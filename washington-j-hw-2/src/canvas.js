@@ -20,7 +20,12 @@ const circleCheckBox = document.querySelector("#cb-circles");
 const barsCheckBox = document.querySelector("#cb-bars");
 const gradientCheckBox = document.querySelector("#cb-gradient");
 const invertCheckbox = document.querySelector("#cb-invert");
-const embossCheckbox = document.querySelector("#cb-emboss");
+
+let currentFill = "black";
+const BAR_WIDTH = 30;
+const MAX_BAR_HEIGHT = 100;
+const PADDING = 4;
+const MIDDLE_Y = canvasHeight/2;
 
 class SparkleSprite{
     cosntructor(x=0,y=0,scale=1){
@@ -92,7 +97,7 @@ const draw = (params={}) => {
 	
 	// 2 - draw background
 	ctx.save();
-    ctx.fillStyle = "black";
+    ctx.fillStyle = currentFill;
     ctx.globalAlpha = .1;
     ctx.fillRect(0,0,canvasWidth,canvasHeight)
 		
@@ -100,25 +105,54 @@ const draw = (params={}) => {
     if (gradientCheckBox.checked){
         if (params.showGradient){
             ctx.save();
-            ctx.fillStyle = gradient;
+            currentFill = gradient;
+            ctx.fillStyle = currentFill;
             ctx.globalAlpha = .3;
             ctx.fillRect(0,0,canvasWidth,canvasHeight);
             ctx.restore();
         }
     }
+    else{
+        currentFill = "black";
+    }
 
     // 4 - draw bars
     if (barsCheckBox.checked){
         if (params.showBars){
-            let barSpacing = 4;
-            let margin = 5;
-            let screenWidthForBars = canvasWidth - (audioData.length * barSpacing) - margin * 2;
-            let barWidth = screenWidthForBars / audioData.length;
+            // ctx.fillStyle = "red";
+            // ctx.save();
+            // ctx.translate(0, MIDDLE_Y);
+            // for (let b of audioData){
+            //     let percent = b/255; // normalizes the values to be percentages between 0 and 1
+    
+            //     if (percent < .02){
+            //         percent = .02;
+            //     }
+    
+            //     // move to right each time you draw a bar; translate!
+            //     ctx.translate(BAR_WIDTH, 0);
+            //     ctx.rotate(Math.PI*2/32); // rotate a little over 10 degrees every translation
+            //     ctx.save(); // for the flip
+    
+            //     ctx.scale(1,-1);
+            //     ctx.fillStyle = `rgb(${b}, ${b-128}, ${255-b})`;
+    
+            //     // draw new rectangle
+            //     ctx.fillRect(0,350,BAR_WIDTH,MAX_BAR_HEIGHT * percent);
+            //     ctx.restore();
+            //     ctx.translate(PADDING,0); // add space between bars
+            // }
+            // ctx.restore();
+
+            let barSpacing = 0;
+            let margin = 0;
+            // let screenWidthForBars = canvasWidth - (audioData.length * barSpacing) - margin * 2;
+            let barWidth = canvasWidth/64;
             let barHeight = 200;
-            let topSpacing = 100;
+            let topSpacing = 200;
     
             ctx.save();
-            ctx.fillStyle = 'rgba(255,255,255,0.50)';
+            ctx.fillStyle = 'rgba(255,102,229,1)';
             ctx.strokeStyle = 'rgba(0,0,0,0.50)';
     
             // loop through the data and draw!
@@ -141,7 +175,6 @@ const draw = (params={}) => {
             for (let i=0; i<audioData.length; i++){
                 // red-ish circles
                 let percent = audioData[i] / 255;
-                console.log(`percent: ${percent}`);
                 let circleRadius = percent * maxRadius;
                 let newGradient = utils.getLinearGradient(ctx,(canvasWidth/2) - 50,(canvasHeight/2) - 50,(canvasWidth/2), (canvasHeight/2),[{percent:0,color:"#ff66e5"},{percent:.25,color:"#ffe6fb"},{percent:.5,color:"#ffe6fb"},{percent:.75,color:"#ffe6fb"},{percent:1,color:"#ff66e5"}]);
                 let centerX = canvasWidth/2;
@@ -186,15 +219,6 @@ const draw = (params={}) => {
     }
 
     // 6 - bitmap manipulation
-	// TODO: right now. we are looping though every pixel of the canvas (320,000 of them!), 
-	// regardless of whether or not we are applying a pixel effect
-	// At some point, refactor this code so that we are looping though the image data only if
-	// it is necessary
-
-	// A) grab all of the pixels on the canvas and put them in the `data` array
-	// `imageData.data` is a `Uint8ClampedArray()` typed array that has 1.28 million elements!
-	// the variable `data` below is a reference to that array 
-
     let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
     let data = imageData.data;
     let length = data.length;
@@ -228,19 +252,9 @@ const draw = (params={}) => {
         }
 
     } // end for
-
-    // embossing things
-    if(embossCheckbox.checked){
-        if(params.showEmboss){
-            for (let i = 0; i < length; i++){
-                if (i%4 == 3) continue; // skip alpha channel
-                data[i] = 127 + 2*data[i] - data[i+4] - data [i + width*4];
-            }
-        }
-    }    
+ 
     // D) copy image data back to canvas
     ctx.putImageData(imageData, 0, 0);
-    
 }
 
 // shape functions!
@@ -254,7 +268,6 @@ const drawHeart = (ctx,x,y,scale=1) => {
 
     x = (x*scale)/scale;
     y = (y*scale)/scale;
-    console.log(`x: ${x}, y: ${y}, scale: ${scale}`);
 
     ctx.translate(x-(x*scale),y-(scale*y));
     ctx.scale(scale,scale);
@@ -279,6 +292,11 @@ const drawHeart = (ctx,x,y,scale=1) => {
 
     ctx.restore();
 
+}
+
+const clearScreen = (canvasElement) => {
+    ctx = canvasElement.getContext("2d");
+    ctx.fillStyle = currentFill;
 }
 
 export {setupCanvas,draw};
