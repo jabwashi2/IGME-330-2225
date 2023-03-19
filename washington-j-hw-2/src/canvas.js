@@ -119,46 +119,18 @@ const draw = (params={}) => {
     // 4 - draw bars
     if (barsCheckBox.checked){
         if (params.showBars){
-            // ctx.fillStyle = "red";
-            // ctx.save();
-            // ctx.translate(0, MIDDLE_Y);
-            // for (let b of audioData){
-            //     let percent = b/255; // normalizes the values to be percentages between 0 and 1
-    
-            //     if (percent < .02){
-            //         percent = .02;
-            //     }
-    
-            //     // move to right each time you draw a bar; translate!
-            //     ctx.translate(BAR_WIDTH, 0);
-            //     ctx.rotate(Math.PI*2/32); // rotate a little over 10 degrees every translation
-            //     ctx.save(); // for the flip
-    
-            //     ctx.scale(1,-1);
-            //     ctx.fillStyle = `rgb(${b}, ${b-128}, ${255-b})`;
-    
-            //     // draw new rectangle
-            //     ctx.fillRect(0,350,BAR_WIDTH,MAX_BAR_HEIGHT * percent);
-            //     ctx.restore();
-            //     ctx.translate(PADDING,0); // add space between bars
-            // }
-            // ctx.restore();
-
             let barSpacing = 0;
             let margin = 0;
-            // let screenWidthForBars = canvasWidth - (audioData.length * barSpacing) - margin * 2;
             let barWidth = canvasWidth/64;
             let barHeight = 200;
             let topSpacing = 200;
     
             ctx.save();
             ctx.fillStyle = 'rgba(255,102,229,1)';
-            ctx.strokeStyle = 'rgba(0,0,0,0.50)';
     
             // loop through the data and draw!
             for (let i=0; i<audioData.length; i++){
                 ctx.fillRect(margin + i * (barWidth + barSpacing), topSpacing + 256-audioData[i], barWidth, barHeight);
-                ctx.strokeRect(margin + i *(barWidth + barSpacing), topSpacing + 256-audioData[i], barWidth, barHeight);
             }
     
             ctx.restore();
@@ -174,45 +146,16 @@ const draw = (params={}) => {
             
             for (let i=0; i<audioData.length; i++){
                 // red-ish circles
-                let percent = audioData[i] / 255;
-                let circleRadius = percent * maxRadius;
-                let newGradient = utils.getLinearGradient(ctx,(canvasWidth/2) - 50,(canvasHeight/2) - 50,(canvasWidth/2), (canvasHeight/2),[{percent:0,color:"#ff66e5"},{percent:.25,color:"#ffe6fb"},{percent:.5,color:"#ffe6fb"},{percent:.75,color:"#ffe6fb"},{percent:1,color:"#ff66e5"}]);
+                let percent = audioData[i] / 255; 
                 let centerX = canvasWidth/2;
                 let centerY = (canvasHeight/2) - 50;
 
-                // ctx.lineWidth = 6;
-                // ctx.strokeStyle = "pink";
-                // drawHeart(ctx,centerX,centerY,percent*1.5);
-                // ctx.stroke();
-
                 ctx.lineWidth = 6;
                 ctx.strokeStyle = `rgba(255,230,251,.15)`;
-                ctx.fillStyle = newGradient;
+                ctx.fillStyle = "#ff66e5";
                 drawHeart(ctx,centerX,centerY,percent);
                 ctx.fill();
                 ctx.stroke();
-
-                // ctx.beginPath();
-                // ctx.fillStyle = utils.makeColor(255, 111, 111, .34 - percent/3.0);
-                // ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius, 0, 2*Math.PI, false);
-                // ctx.fill();
-                // ctx.closePath();
-    
-                // // blue-ish circles, bigger, more transparent
-                // ctx.beginPath();
-                // ctx.fillStyle = utils.makeColor(0, 0, 255, .10 - percent/10.0);
-                // ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius * 1.5, 0, 2*Math.PI, false);
-                // ctx.fill();
-                // ctx.closePath();
-    
-                // // yellow-ish circles, smaller
-                // ctx.save();
-                // ctx.beginPath();
-                // ctx.fillStyle = utils.makeColor(200, 200, 0, .5 - percent/5.0);
-                // ctx.arc(canvasWidth/2, canvasHeight/2, circleRadius * .50, 0, 2 * Math.PI, false);
-                // ctx.fill();
-                // ctx.closePath();
-                // ctx.restore();
             }
             ctx.restore();
         }
