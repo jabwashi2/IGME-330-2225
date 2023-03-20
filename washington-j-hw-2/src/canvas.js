@@ -21,6 +21,7 @@ const barsCheckBox = document.querySelector("#cb-bars");
 const gradientCheckBox = document.querySelector("#cb-gradient");
 const invertCheckbox = document.querySelector("#cb-invert");
 const sparkleCheckBox = document.querySelector("#cb-sparkles");
+const waveformCheckBox = document.querySelector("#cb-waveform");
 
 let currentFill = "black";
 const BAR_WIDTH = 30;
@@ -119,7 +120,15 @@ const draw = (params={}) => {
 
   // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
-	analyserNode.getByteFrequencyData(audioData);
+
+    if (waveformCheckBox.checked){
+        if (params.waveData){
+            analyserNode.getByteTimeDomainData(audioData);
+        }
+    }
+    else{
+        analyserNode.getByteFrequencyData(audioData);
+    }
 	// OR
 	//analyserNode.getByteTimeDomainData(audioData); // waveform data
 	

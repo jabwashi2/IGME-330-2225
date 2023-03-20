@@ -21,7 +21,8 @@ const drawParams = {
   showCircles : true,
   showNoise : true,
   showInvert : true,
-  showSparkles : true
+  showSparkles : true,
+  waveData : true
 };
 
 // 1 - here we are faking an enumeration
