@@ -17,7 +17,8 @@ const drawParams = {
   showBars : true,
   showCircles : true,
   showNoise : true,
-  showInvert : true
+  showInvert : true,
+  showSparkles : true
 };
 
 // 1 - here we are faking an enumeration

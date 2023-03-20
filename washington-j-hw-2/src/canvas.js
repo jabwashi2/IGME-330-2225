@@ -20,6 +20,7 @@ const circleCheckBox = document.querySelector("#cb-circles");
 const barsCheckBox = document.querySelector("#cb-bars");
 const gradientCheckBox = document.querySelector("#cb-gradient");
 const invertCheckbox = document.querySelector("#cb-invert");
+const sparkleCheckBox = document.querySelector("#cb-sparkles");
 
 let currentFill = "black";
 const BAR_WIDTH = 30;
@@ -27,20 +28,41 @@ const MAX_BAR_HEIGHT = 100;
 const PADDING = 4;
 const MIDDLE_Y = canvasHeight/2;
 
+// sparkle specific variables
+let down = true;
+let up = false;
+let startY;
+let sparkleList = [];
+
 class SparkleSprite{
-    cosntructor(x=0,y=0,scale=1){
+    constructor(x=0,y=0,scale=.3){
         this.x = x;
         this.y = y;
         this.scale = scale;
+        startY = y;
     }
 
     update(){
-        let startScale = scale;
-        if (scale >= startScale){
-            scale -= .01;
+
+        if (up)
+        {
+            this.y--;
+
+            if (this.y <= startY && up){
+                up = false;
+                down = true;
+            }
+           
         }
-        if (scale <= .1){
-            scale += .01;
+        if (down)
+        {
+            this.y++;
+
+            if (this.y >= 750 && down){
+                down = false;
+                up = true;
+            }
+      
         }
     }
 
@@ -48,29 +70,33 @@ class SparkleSprite{
         ctx.lineWidth = 6;
         ctx.strokeStyle = "rgba(0,0,0,.15)";
         ctx.fillStyle = "white";
-        ctx.scale(scale,scale);
-
-        // make sure to divide x and y by scale so the intended x and y positions are used
+        ctx.scale(this.scale,this.scale);
 
         ctx.save();
         ctx.beginPath();
 
-        // first half
-        ctx.moveTo(x/scale, y/scale);
-        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 50, y/scale - 50);
-        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 90, y/scale);
+        ctx.translate(this.x-(this.x*this.scale),this.y-(this.scale*this.y)); // translate to get to intended x and y
 
-        // second half
-        ctx.moveTo(x/scale,y/scale);
-        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 50, y/scale + 50);
-        ctx.quadraticCurveTo(x/scale - 40, y/scale, x/scale - 90, y/scale);
+        this.drawSparkle(ctx,this.x,this.y);
 
-        ctx.closePath();
         ctx.stroke();
         ctx.fill();
         ctx.restore();
 
         ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+
+    // helper function
+    drawSparkle = (ctx,x,y) => {
+        // first half
+        ctx.moveTo(x, y);
+        ctx.quadraticCurveTo(x - 40, y, x - 50, y - 50);
+        ctx.quadraticCurveTo(x - 40, y, x - 90, y);
+    
+        // second half
+        ctx.moveTo(x,y);
+        ctx.quadraticCurveTo(x - 40, y, x - 50, y + 50);
+        ctx.quadraticCurveTo(x - 40, y, x - 90, y);
     }
 
 }
@@ -89,6 +115,8 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 }
 
 const draw = (params={}) => {
+    setupSparkles();
+
   // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
 	analyserNode.getByteFrequencyData(audioData);
@@ -97,7 +125,7 @@ const draw = (params={}) => {
 	
 	// 2 - draw background
 	ctx.save();
-    ctx.fillStyle = currentFill;
+    ctx.fillStyle = "black";
     ctx.globalAlpha = .1;
     ctx.fillRect(0,0,canvasWidth,canvasHeight)
 		
@@ -105,15 +133,11 @@ const draw = (params={}) => {
     if (gradientCheckBox.checked){
         if (params.showGradient){
             ctx.save();
-            currentFill = gradient;
-            ctx.fillStyle = currentFill;
+            ctx.fillStyle = gradient;
             ctx.globalAlpha = .3;
             ctx.fillRect(0,0,canvasWidth,canvasHeight);
             ctx.restore();
         }
-    }
-    else{
-        currentFill = "black";
     }
 
     // 4 - draw bars
@@ -155,6 +179,35 @@ const draw = (params={}) => {
                 ctx.fill();
                 ctx.stroke();
             }
+
+            ctx.restore();
+        }
+    }
+
+    // SPARKLES
+    if (sparkleCheckBox.checked){
+        if (params.showSparkles){
+            ctx.save();
+            sparkleList[0].update(); sparkleList[0].draw(ctx);
+            sparkleList[1].update(); sparkleList[1].draw(ctx); 
+            sparkleList[2].update(); sparkleList[2].draw(ctx); 
+            sparkleList[3].update(); sparkleList[3].draw(ctx); 
+            sparkleList[4].update(); sparkleList[4].draw(ctx); 
+            sparkleList[5].update(); sparkleList[5].draw(ctx); 
+            sparkleList[6].update(); sparkleList[6].draw(ctx); 
+            sparkleList[7].update(); sparkleList[7].draw(ctx); 
+            sparkleList[8].update(); sparkleList[8].draw(ctx); 
+            sparkleList[9].update(); sparkleList[9].draw(ctx); 
+            sparkleList[10].update(); sparkleList[10].draw(ctx); 
+            sparkleList[11].update(); sparkleList[11].draw(ctx); 
+            sparkleList[12].update(); sparkleList[12].draw(ctx); 
+            sparkleList[13].update(); sparkleList[13].draw(ctx); 
+            sparkleList[14].update(); sparkleList[14].draw(ctx); 
+            sparkleList[15].update(); sparkleList[15].draw(ctx); 
+            sparkleList[16].update(); sparkleList[16].draw(ctx); 
+            sparkleList[17].update(); sparkleList[17].draw(ctx); 
+            sparkleList[18].update(); sparkleList[18].draw(ctx);
+
             ctx.restore();
         }
     }
@@ -194,12 +247,12 @@ const draw = (params={}) => {
         }
 
     } // end for
- 
+
     // D) copy image data back to canvas
     ctx.putImageData(imageData, 0, 0);
 }
 
-// shape functions!
+// shape function!
 const drawHeart = (ctx,x,y,scale=1) => {
     ctx.save();
     ctx.beginPath();
@@ -236,9 +289,54 @@ const drawHeart = (ctx,x,y,scale=1) => {
 
 }
 
-const clearScreen = (canvasElement) => {
-    ctx = canvasElement.getContext("2d");
-    ctx.fillStyle = currentFill;
+const setupSparkles = () =>{
+
+    // for (let i = 0; i <= 30; i++){
+    //     let sparkle1 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    //     sparkleList.push(sparkle1);
+    // }
+
+    let sparkle1 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle2 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle3 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle4 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle5 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle6 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle7 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle8 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle9 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle10 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle11 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle12 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle13 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle14 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle15 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle16 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle17 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle18 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    let sparkle19 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+
+    sparkleList.push(sparkle1);
+    sparkleList.push(sparkle2);
+    sparkleList.push(sparkle3);
+    sparkleList.push(sparkle4);
+    sparkleList.push(sparkle5);
+    sparkleList.push(sparkle6);
+    sparkleList.push(sparkle7);
+    sparkleList.push(sparkle8);
+    sparkleList.push(sparkle9);
+    sparkleList.push(sparkle10);
+    sparkleList.push(sparkle11);
+    sparkleList.push(sparkle12);
+    sparkleList.push(sparkle13);
+    sparkleList.push(sparkle14);
+    sparkleList.push(sparkle15);
+    sparkleList.push(sparkle16);
+    sparkleList.push(sparkle17);
+    sparkleList.push(sparkle18);
+    sparkleList.push(sparkle19);
+
+
 }
 
 export {setupCanvas,draw};
