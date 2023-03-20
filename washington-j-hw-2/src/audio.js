@@ -3,7 +3,7 @@ let audioCtx;
 
 // **These are "private" properties - these will NOT be visible outside of this module (i.e. file)**
 // 2 - WebAudio nodes that are part of our WebAudio audio routing graph
-let element, sourceNode, analyserNode, gainNode; //analyser = frequency, gain = volume
+let element, sourceNode, analyserNode, gainNode, hsBiquadFilter, lsBiquadFilter; //analyser = frequency, gain = volume
 
 // 3 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
@@ -31,11 +31,11 @@ const setupWebAudio = (filePath) => {
     sourceNode = audioCtx.createMediaElementSource(element);
 
     // biquad filter node: highshelf >:)
-	let hsBiquadFilter = audioCtx.createBiquadFilter();
+	hsBiquadFilter = audioCtx.createBiquadFilter();
 	hsBiquadFilter.type = "highshelf";
 
 	// biquad filter node: lowshelf >:)
-	let lsBiquadFilter = audioCtx.createBiquadFilter();
+	lsBiquadFilter = audioCtx.createBiquadFilter();
 	lsBiquadFilter.type = "lowshelf";
 
     // 5 - create an analyser node
@@ -84,4 +84,22 @@ const setVolume = (value) => {
     gainNode.gain.value = value;
 }
 
-export {audioCtx, setupWebAudio, playCurrentSound, pauseCurrentSound, loadSoundFile, setVolume, analyserNode};
+const toggleHighshelf = (highshelf) => {
+    if(highshelf){
+     hsBiquadFilter.frequency.setValueAtTime(1000, audioCtx.currentTime); 
+     hsBiquadFilter.gain.setValueAtTime(20, audioCtx.currentTime);
+    } else{
+    hsBiquadFilter.gain.setValueAtTime(0, audioCtx.currentTime);
+    }
+  }
+  
+const toggleLowshelf = (lowshelf) => {
+if(lowshelf){
+    lsBiquadFilter.frequency.setValueAtTime(1000, audioCtx.currentTime);
+    lsBiquadFilter.gain.setValueAtTime(15, audioCtx.currentTime);
+} else{
+    lsBiquadFilter.gain.setValueAtTime(0, audioCtx.currentTime);
+}
+}
+
+export {audioCtx, setupWebAudio, playCurrentSound, pauseCurrentSound, loadSoundFile, setVolume, analyserNode, toggleHighshelf, toggleLowshelf};

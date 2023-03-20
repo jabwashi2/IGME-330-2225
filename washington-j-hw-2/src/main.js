@@ -11,6 +11,9 @@ import * as utils from './utils.js';
 import * as audio from './audio.js';
 import * as canvas from './canvas.js';
 
+let highshelf = false;
+let lowshelf = false;
+
 // drawParams object 
 const drawParams = {
   showGradient : true,
@@ -94,6 +97,22 @@ const setupUI = (canvasElement) => {
       playButton.dispatchEvent(new MouseEvent("click"));
     }
   }
+
+  // highshelf and lowshelfd
+  document.querySelector('#cb-highshelf').checked = highshelf;
+  document.querySelector('#cb-lowshelf').checked = lowshelf;
+
+  document.querySelector('#cb-highshelf').onchange = e => {
+    highshelf = e.target.checked;
+    audio.toggleHighshelf(highshelf);
+  };
+  document.querySelector('#cb-lowshelf').onchange = e => {
+    lowshelf = e.target.checked;
+    audio.toggleLowshelf(lowshelf);
+  };
+
+  audio.toggleHighshelf();
+  audio.toggleLowshelf();
 	
 } // end setupUI
 
