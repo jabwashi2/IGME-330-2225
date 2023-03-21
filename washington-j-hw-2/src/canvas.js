@@ -69,7 +69,7 @@ class SparkleSprite{
 
     draw(ctx){
         ctx.lineWidth = 6;
-        ctx.strokeStyle = "rgba(0,0,0,.15)";
+        ctx.strokeStyle = "rgba(0,0,0,.4)";
         ctx.fillStyle = "white";
         ctx.scale(this.scale,this.scale);
 
@@ -135,7 +135,7 @@ const draw = (params={}) => {
 	// 2 - draw background
 	ctx.save();
     ctx.fillStyle = "black";
-    ctx.globalAlpha = .1;
+    ctx.globalAlpha = .05;
     ctx.fillRect(0,0,canvasWidth,canvasHeight)
 		
 	// 3 - draw gradient
