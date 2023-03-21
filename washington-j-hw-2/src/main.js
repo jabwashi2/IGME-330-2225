@@ -18,7 +18,7 @@ let lowshelf = false;
 const drawParams = {
   showGradient : true,
   showBars : true,
-  showCircles : true,
+  showHearts : true,
   showNoise : true,
   showInvert : true,
   showSparkles : true,
@@ -27,7 +27,7 @@ const drawParams = {
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
-	sound1  :  "media/New Adventure Theme.mp3"
+	sound1  :  "media/Sweet Love - Junko Ohashi.mp3"
 });
 
 const init = () => {

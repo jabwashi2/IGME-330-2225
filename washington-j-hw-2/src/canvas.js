@@ -16,7 +16,7 @@ import * as utils from './utils.js';
 let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
 
 const noiseCheckBox = document.querySelector("#cb-noise");
-const circleCheckBox = document.querySelector("#cb-circles");
+const heartCheckBox = document.querySelector("#cb-hearts");
 const barsCheckBox = document.querySelector("#cb-bars");
 const gradientCheckBox = document.querySelector("#cb-gradient");
 const invertCheckbox = document.querySelector("#cb-invert");
@@ -170,9 +170,9 @@ const draw = (params={}) => {
         }
     }
 
-	// 5 - draw circles
-    if (circleCheckBox.checked){
-        if (params.showCircles){
+	// 5 - draw Hearts
+    if (heartCheckBox.checked){
+        if (params.showHearts){
             ctx.save();
             ctx.globalAlpha = 0.5;
             
