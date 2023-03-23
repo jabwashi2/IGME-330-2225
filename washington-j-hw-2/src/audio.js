@@ -102,4 +102,12 @@ if(lowshelf){
 }
 }
 
-export {audioCtx, setupWebAudio, playCurrentSound, pauseCurrentSound, loadSoundFile, setVolume, analyserNode, toggleHighshelf, toggleLowshelf};
+const getAnalyserNode = () =>{
+    return analyserNode;
+}
+
+const getAudioCtx = () =>{
+    return audioCtx;
+}
+
+export {getAudioCtx, setupWebAudio, playCurrentSound, pauseCurrentSound, loadSoundFile, setVolume, getAnalyserNode, toggleHighshelf, toggleLowshelf};

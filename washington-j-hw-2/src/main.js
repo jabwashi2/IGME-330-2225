@@ -35,7 +35,7 @@ const init = () => {
 	console.log("init called");
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
 	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
-  canvas.setupCanvas(canvasElement,audio.analyserNode);
+  canvas.setupCanvas(canvasElement,audio.getAnalyserNode());
 	setupUI(canvasElement);
   loop();
 }
@@ -53,13 +53,13 @@ const setupUI = (canvasElement) => {
 
   // add .onclick event to play button
   playButton.onclick = e =>{
-    console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
+    console.log(`audioCtx.state before = ${audio.getAudioCtx().state}`);
     
     //check if contedxt is in suspended state (autoplay policy)
-    if (audio.audioCtx.state == "suspended"){
-        audio.audioCtx.resume();
+    if (audio.getAudioCtx().state == "suspended"){
+        audio.getAudioCtx().resume();
     }
-    console.log(`audioCtx.state after = ${audio.audioCtx.state}`);
+    console.log(`audioCtx.state after = ${audio.getAudioCtx().state}`);
 
     if (e.target.dataset.playing == "no"){
         // if track is currently paused, play it
@@ -126,10 +126,10 @@ const loop = () => {
     canvas.draw(drawParams);
     // 1) create a byte array (values of 0-255) to hold the audio data
     // normally, we do this once when the program starts up, NOT every frame
-    let audioData = new Uint8Array(audio.analyserNode.fftSize/2);
+    let audioData = new Uint8Array(audio.getAnalyserNode().fftSize/2);
     
     // 2) populate the array of audio data *by reference* (i.e. by its address)
-    audio.analyserNode.getByteFrequencyData(audioData);
+    audio.getAnalyserNode().getByteFrequencyData(audioData);
 
 
 }
