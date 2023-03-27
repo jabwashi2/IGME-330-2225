@@ -1,0 +1,11 @@
+2 New Audio Effect Nodes:
+- I added the Highshelf and Lowshelf BiquadFilter nodes to the audio routing graph. Though the highshelf filter can be a bit annoying, adding both does make the app a bit more customizable and enjoyable.
+
+Sprite Class:
+- My Sprite class is called SparkleSprite. It draws a sparkle using the quadraticArcTo() function and scales it. In the app, 19 sprites are drawn in random positions on the screen. As the app plays, they move up and down on their respective y axes.
+
+App Data:
+- I included the title of the app, the song titles, and simple instructions for the user that also encourage them to find the combination of options that they like the most.
+
+Aesthetics:
+- I changed the color scheme of the entire project to be focused around the colors pink and white. I swapped the circles out for a really cool heart (that took forever to figure out how to draw since it's comprised of both quadtraticArcTo() function calls and arcT0() function calls). The gradient in the background is made up of only two colors that work well together. The noise has been turned down to a soft static. And there are sparkles! I would give myself about an 8%-10% for aesthetics. I kept things simple but I think that's what makes the app feel cohesive and pleasant.
