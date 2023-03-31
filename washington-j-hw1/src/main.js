@@ -27,7 +27,7 @@ const loadJSONBabble = () => {
     };
 
     xhr.onerror = (e) =>
-      console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
+    console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
 
 
 }

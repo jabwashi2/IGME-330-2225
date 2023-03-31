@@ -26,7 +26,7 @@
 		setTimeout(loop,1000/fps);
 		ctx.save();
 		ctx.fillStyle = "black";
-		ctx.globalAlpha =;
+		ctx.globalAlpha = 1/fps;
 		ctx.fillRect(0,0,canvasWidth,canvasHeight);
 		ctx.restore();
 		x += 10;

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Sine Start</title>
+	<style>canvas{ border: 1px solid black; }</style>
+	<script>
+    
+
+        "use strict";
+        const canvasWidth = 600, canvasHeight = 500;
+        const fps = 60;
+
+        let ctx;
+        let radius = 2;
+        let radiusOffset = .8;
+
+        let flowers = [];
+
+        window.onload = init;
+
+        // let centerX = canvasWidth/2;
+        // let centerY = canvasHeight/2;
+
+        // const divergence = 137.5;
+        // const c = 4;
+        // setTimeout(loop,1000/fps);
+
+        // making the phylloflower class
+        class PhylloFlower{
+            constructor(n = 0, centerX, centerY, divergence, c){
+                this.n = n;
+                this.centerX = centerX;
+                this.centerY = centerY;
+                this.divergence = divergence;
+                this.c = c;
+            }
+
+            draw = (ctx) => {
+                let a = this.n * dtr(this.divergence);
+                let r = this.c * Math.sqrt(this.n);
+                let x = r * Math.cos(a) + this.centerX;
+                let y = r * Math.sin(a) + this.centerY;
+                let aDegrees = (this.n * this.divergence) % 361; 
+                let color = getColor(aDegrees, this.n);
+
+                // my silly little things (the NOW DO IT section)
+                // changing the radius (makes a cool little galaxy effect)
+                radius -= radiusOffset;
+                if (radius <= 0) radius = 2;
+
+                // 10% chance that a circle will be white (stars for the galaxy)
+                if (Math.random() * 10 <= 2){
+                    color = "white";
+                    radius = radiusOffset;
+                }
+
+                drawCircle(ctx,x,y,radius,color);       
+                this.n++;
+
+            }
+
+            // helpers
+            dtr = (degrees) => {
+                return degrees * (Math.PI/180);
+            }
+
+            drawCircle = (ctx,x,y,radius,color) => {
+                ctx.save();
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(x,y,radius,0,Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function init(){
+            ctx = canvas.getContext("2d");
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            ctx.fillRect(0,0,canvasWidth,canvasHeight);
+            flowers.push(new PhylloFlower(200, 200, 137.5, 4));
+            flowers.push(new PhylloFlower(450, 200, 137.1, 3));
+            loop();
+        }
+
+        function loop(){
+            setTimeout(loop,1000/30);
+
+            for ( let i =0; i<flowers.length; i++){
+                flowers[i].draw(ctx);
+            }
+        }
+        
+        function reset(){
+            ctx.fillStyle = "black"; 
+            ctx.fillRect(0,0,640,480);
+            n = 0;
+        }
+
+        const getColor = (aDegrees, n) => {
+            // color options
+            let PPB1 = `rgb(${n % 256},0,255)`;
+            let PPB2 = `rgb(${aDegrees},0,255)`;
+            let RGB1 = `hsl(${n/5 % 361},100%,50%)`;
+            let RGB2 = `hsl(${aDegrees},100%,50%)`;
+            const colorOptions = {PPB1:PPB1, PPB2:PPB2, RGB1:RGB1, RGB2:RGB2};
+
+            let color = colorOptions["PPB1"];
+
+            // access the dropdown
+            let chosenColor = document.querySelector("#color-select").value;
+
+            // finding the chosen color
+            if (chosenColor in colorOptions)
+            {
+                color = colorOptions[chosenColor];
+            }
+
+            return color;
+        }
+    
+	</script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="controls">
+        <label>Color Changing!</label>
+        <select id="color-select" onchange="reset()">
+            <option value="PPB1">PPB 1</option>
+            <option value="PPB2">PPB 2</option>
+            <option value="RGB1">RGB 1</option>
+            <option value="RGB2">RGB 2</option>
+        </select>
+
+        <button id="reset-btn" onclick="reset()">Reset!</button>
+    </div>
+</body>
+</html>
