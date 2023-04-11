@@ -10,7 +10,7 @@ h1{
   text-align:center;
 }
 
-footer{
+footer,my-footer{
   font-family: courier;
   font-style: italic;
   font-size: .9rem;

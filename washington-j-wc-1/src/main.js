@@ -25,3 +25,41 @@ console.log("meaningOfLife = ", meaningOfLife); // FAILS - it is not being expor
 
 console.log("temp = ", temp);
 console.log("utils.temp = ", utils.temp); // named import
+
+// ***************************************************************
+// web components
+
+class MyFooter extends HTMLElement{
+    constructor(){
+        super();
+        this.name = "Ace Coder";
+        this.year = 2020;
+    }
+
+    static get observedAttributes(){
+        return ["data-name", "data-year"]; // custom attributes!
+    }
+
+    connectedCallback(){
+        this.render();
+    }
+
+    attributeChangedCallback(attributeName, oldValue, newValue){
+        console.log(attributeName, oldValue, newValue);
+        if(oldValue === newValue) return;
+        if(attributeName == "data-name"){
+            this.name = newValue;
+        }
+        if (attributeName == "data-year"){
+            this.year = newValue;
+        }
+
+        this.render();
+    }
+
+    render(){
+        this.textContent = `\u00A9 ${this.year} ${this.name}`;
+    }
+}
+
+customElements.define("my-footer", MyFooter);
