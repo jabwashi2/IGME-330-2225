@@ -11,7 +11,12 @@ body {
 }
 
 .poi{
-
+    background-image: url("../images/mapbox-icon.png");
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .marker {
