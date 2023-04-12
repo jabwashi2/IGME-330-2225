@@ -1,4 +1,4 @@
-import { MyBookmark } from "./my-bookmark.js";
+import { MyBookmark } from "./myBookmark.js";
 
 const bookmarks = [
     {

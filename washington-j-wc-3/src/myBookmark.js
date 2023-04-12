@@ -1,21 +1,52 @@
 // template
 const template = document.createElement("template");
     template.innerHTML = `
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
         <style>
             :host{ 
-                display:inline-block;
-                background-color: #ddd;
+                display: inline-block;
+                height: 3rem;
+                line-height: 3rem;
             }
 
-            span{
-                color: #F76902;
-                font-variant: small-caps;
-                font-weight: bolder;
-                font-family: sans-serif;
+            #link{
+              display: inline-block;
+              width: 8rem;
+            }
+
+            #buttons{
+              display: inline-block;
+              vertical-align: middle;
+              line-height: normal;
+            }
+
+            a{
+              display: inline-block;
+              vertical-align: middle;
+              line-height: normal;
             }
         </style>
 
-        <span><a href="">???</span>
+        <div class="has-background-link pl-1 pr-1">
+          <span id="link" class="is-family-sans-serif">
+            <a href="" class="has-text-light">???</a>
+          </span>
+          <span id="buttons">
+            <button class="button is-success is-small">
+              <span class="icon is-small">
+                <i class="fas fa-check"></i>
+              </span>
+              <span>Favorite</span>
+            </button>
+            <button class="button is-warning is-small">
+              <span>Delete</span>
+              <span class="icon is-small">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+          </span>
+        </div>
     `;
 
 // bookmark class
