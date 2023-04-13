@@ -1,5 +1,20 @@
 import { MyBookmark } from "./myBookmark.js";
+import { Favorite } from "./favorite.js";
 
+// **************** variables ****************
+
+// submit and cancel buttons
+let submitButton = document.querySelector("#favorite-submit-button");
+let cancelButton = document.querySelector("#favorite-cancel-button");
+
+// favorites
+let favorites = [];
+favorites.push(new Favorite(crypto.randomUUID(), "RIT", "https://www.rit.edu", "A private university located new Rochester, NY"));
+
+console.log(favorites);
+
+
+// **************** functions ****************
 // submit button function
 const submitClicked = (evt) => {
   console.log("submitClicked");
@@ -19,12 +34,11 @@ const clearFormFields = (evt) => {
   return false;
 }
 
+// **************** other stuff ****************
 // calling submitClicked when submit button is called
-let submitButton = document.querySelector("#favorite-submit-button");
 submitButton.onclick = (e) => submitClicked(e);
 
 // calling clearFormFields when cancel is clicked
-let cancelButton = document.querySelector("#favorite-cancel-button");
 cancelButton.onclick = (e) => clearFormFields(e);
 
 /*
