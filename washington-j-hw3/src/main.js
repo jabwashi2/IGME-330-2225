@@ -34,6 +34,23 @@ const clearFormFields = (evt) => {
   return false;
 }
 
+const createBookmarkComponent = (fid, text, url, comments) => {
+  // make a new bookmark elements
+  const bookmark = document.createElement("my-bookmark");
+
+  // set attributes
+  bookmark.dataset.fid = fid;
+  bookmark.dataset.text = text;
+  bookmark.dataset.url = url;
+  bookmark.dataset.comments = comments;
+
+  // add to bookmarks
+  const newLI = document.createElement("li");
+  newLI.appendChild(bookmark);
+  document.querySelector("#bookmarks").appendChild(newLI);
+
+}
+
 // **************** other stuff ****************
 // calling submitClicked when submit button is called
 submitButton.onclick = (e) => submitClicked(e);
