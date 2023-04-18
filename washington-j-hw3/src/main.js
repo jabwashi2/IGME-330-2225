@@ -51,7 +51,16 @@ const createBookmarkComponent = (fid, text, url, comments) => {
 
 }
 
+const loadFavoritesFromStorage = () => {
+  for (let f of favorites){
+    createBookmarkComponent(f.fid, f.text, f.url, f.comments);
+  }
+}
+
 // **************** other stuff ****************
+//load favorites
+loadFavoritesFromStorage();
+
 // calling submitClicked when submit button is called
 submitButton.onclick = (e) => submitClicked(e);
 
