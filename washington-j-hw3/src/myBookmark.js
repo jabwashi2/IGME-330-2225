@@ -57,7 +57,7 @@ class MyBookmark extends HTMLElement {
       this._text = "RIT";
       this._url = "https://www.rit.edu/";
       this._comments = "No comments found";
-      this._fid = 0;
+      this._fid = crypto.randomUUID();
 
       // Attach a shadow DOM tree to this instance - this create `.shadowRoot` for us
       this.attachShadow({mode: "open"});
@@ -67,7 +67,7 @@ class MyBookmark extends HTMLElement {
 
     // tell the component what attributes to "watch"
     static get observedAttributes() {
-      return ["data-fid", "data-text", "data-url", "data-comments"];
+      return ["data-text", "data-url", "data-comments", "data-fid"];
     }
 
     // ** lifecycle events **
@@ -113,4 +113,4 @@ class MyBookmark extends HTMLElement {
 
 customElements.define('my-bookmark', MyBookmark);
 
-export {MyBookmark};
+export { MyBookmark };

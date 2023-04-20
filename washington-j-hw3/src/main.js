@@ -11,20 +11,29 @@ let cancelButton = document.querySelector("#favorite-cancel-button");
 let favorites = [];
 favorites.push(new Favorite(crypto.randomUUID(), "RIT", "https://www.rit.edu", "A private university located new Rochester, NY"));
 
+// input fields
+let fields = document.querySelectorAll("input");
+
 console.log(favorites);
 
 
 // **************** functions ****************
 // submit button function
 const submitClicked = (evt) => {
+  // got clicked!
   console.log("submitClicked");
+
+  // grab data from inputs, validate data, 
+  for (let f of fields){
+    // f can't be null
+    // 
+  }
+
   evt.preventDefault();
   return false;
 }
 
 const clearFormFields = (evt) => {
-  let fields = document.querySelectorAll("input");
-
   for (let f of fields){
     f.value = "";
   }
@@ -51,12 +60,20 @@ const createBookmarkComponent = (fid, text, url, comments) => {
 
 }
 
+const loadFavoritesFromStorage = () => {
+  for (let f of favorites){
+    createBookmarkComponent(f.fid, f.text, f.url, f.comments);
+  }
+}
+
 // **************** other stuff ****************
 // calling submitClicked when submit button is called
 submitButton.onclick = (e) => submitClicked(e);
 
 // calling clearFormFields when cancel is clicked
 cancelButton.onclick = (e) => clearFormFields(e);
+
+loadFavoritesFromStorage();
 
 /*
 const bookmarks = [
