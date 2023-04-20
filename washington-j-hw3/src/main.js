@@ -6,6 +6,7 @@ import { Favorite } from "./favorite.js";
 // submit and cancel buttons
 let submitButton = document.querySelector("#favorite-submit-button");
 let cancelButton = document.querySelector("#favorite-cancel-button");
+let fields = document.querySelectorAll("input");
 
 // favorites
 let favorites = [];
@@ -23,11 +24,18 @@ const submitClicked = (evt) => {
   // got clicked!
   console.log("submitClicked");
 
-  // grab data from inputs, validate data, 
-  for (let f of fields){
-    // f can't be null
-    // 
-  }
+  // grab input from the 3 form fields x
+  // print out an error messge if anything is missing
+  // if all 3 values are present:
+    // make a new Favorite()
+    // add to favorites array
+    // make new bookmark component
+
+  for (f of fields){
+    if (f == null){
+      console.log("info missing!!");
+    }
+  }  
 
   evt.preventDefault();
   return false;
@@ -67,6 +75,9 @@ const loadFavoritesFromStorage = () => {
 }
 
 // **************** other stuff ****************
+//load favorites
+loadFavoritesFromStorage();
+
 // calling submitClicked when submit button is called
 submitButton.onclick = (e) => submitClicked(e);
 
