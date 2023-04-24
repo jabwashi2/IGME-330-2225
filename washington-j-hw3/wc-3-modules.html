@@ -32,7 +32,7 @@
   <div class="columns section has-backround-light"><!-- Columns -->
     <div class="column"> <!-- Left Column -->
       <h2 class="subtitle is-5">Favorites List</h2>
-      <div class="is-size-7 has-text-weight-bold"> Number of favorites: XX</div>
+      <div class="is-size-7 has-text-weight-bold" id="num-favorites"> Number of favorites: XX</div>
       <ul id="bookmarks"></ul>
     </div>
 
@@ -43,19 +43,19 @@
         <div class="field">
           <label class="label">Text</label>
           <div class="control">
-            <input id="favorite-text" calss="input" type="text" placeholder = "Name of link" size="30" required>
+            <input id="favorite-text" calss="input" type="text" placeholder = "Name of link" size="30">
           </div>
         </div>
         <div class="field">
           <label class="label">URL</label>
           <div class="control">
-            <input id="favorie-url" class="input" type="url" placeholder="https://example.com" pattern="https://.*" size="30">
+            <input id="favorite-url" class="input" type="url" placeholder="https://example.com" size="30">
           </div>
         </div>
         <div class="field">
           <label class="label">Comments</label>
           <div class="control">
-            <input id="favorite-comments" class="input" type="text" placeholder="Comments" size="30" required>
+            <input id="favorite-comments" class="input" type="text" placeholder="Comments" size="30">
           </div>
         </div>
         <div class="field is-grouped">
@@ -68,6 +68,9 @@
             <button id="favorite-cancel-button" class="button is-warning">
               Cancel
             </button>
+          </div>
+          <div id="error-message">
+            <p></p>
           </div>
         </div>
       </form> <!-- End Form -->

@@ -6,7 +6,6 @@ import { Favorite } from "./favorite.js";
 // submit and cancel buttons
 let submitButton = document.querySelector("#favorite-submit-button");
 let cancelButton = document.querySelector("#favorite-cancel-button");
-let fields = document.querySelectorAll("input");
 
 // favorites
 let favorites = [];
@@ -15,27 +14,45 @@ favorites.push(new Favorite(crypto.randomUUID(), "RIT", "https://www.rit.edu", "
 // input fields
 let fields = document.querySelectorAll("input");
 
-console.log(favorites);
+// number of favorites
+let numFavs = favorites.length;
+let numFavDisplay = document.querySelector("#num-favorites");
+numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
 
 
 // **************** functions ****************
 // submit button function
 const submitClicked = (evt) => {
-  // got clicked!
-  console.log("submitClicked");
+  console.log("submit clicked");
 
-  // grab input from the 3 form fields x
-  // print out an error messge if anything is missing
-  // if all 3 values are present:
-    // make a new Favorite()
-    // add to favorites array
-    // make new bookmark component
+  let newFav;
+  let name = document.querySelector("#favorite-text");
+  let url = document.querySelector("#favorite-url");
+  let comments = document.querySelector("#favorite-comments");
+  let error = document.querySelector("#error-message");
 
-  for (f of fields){
-    if (f == null){
-      console.log("info missing!!");
-    }
-  }  
+  console.log(`Name: ${name.value} URL: ${url.value} Comments: ${comments.value}`)
+
+  if (name.value.trim() == "" || url.value.trim() == "" || comments.value.trim() == ""){
+     error.innerHTML = "Fill required fields!!";
+  }
+  else{
+    error.innerHTML = "";
+    newFav = new Favorite(crypto.randomUUID(), name.value, url.value, comments.value);
+    console.log(newFav);
+    favorites.push(newFav);
+    console.log(favorites);
+    createBookmarkComponent(newFav.fid, newFav.text, newFav.url, newFav.comments);
+  }
+
+  // clearing form fields
+  name.value = "";
+  url.value = "";
+  comments.value = "";
+
+  // updating number of favorites
+  numFavs = favorites.length;
+  numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
 
   evt.preventDefault();
   return false;
@@ -46,9 +63,30 @@ const clearFormFields = (evt) => {
     f.value = "";
   }
 
+  let error = document.querySelector("#error-message");
+  error.innerHTML = "";
+
   evt.preventDefault();
 
   return false;
+}
+
+const deleteFavorite = (fid) => {
+  for (let f of favorites){
+    if (f.fid == fid){
+      // get the index of the favorite to delete
+      let index = favorites.indexOf(f);
+
+      // remove chosen favorite using splice
+      favorites.splice(index, 1);
+
+      // removing from the DOM
+      f.parentElement.remove();
+    }
+  }
+
+  // updating number of favorites
+  numFavs = favorites.length;
 }
 
 const createBookmarkComponent = (fid, text, url, comments) => {
@@ -83,9 +121,6 @@ submitButton.onclick = (e) => submitClicked(e);
 
 // calling clearFormFields when cancel is clicked
 cancelButton.onclick = (e) => clearFormFields(e);
-
-loadFavoritesFromStorage();
-
 /*
 const bookmarks = [
     {
