@@ -1,3 +1,5 @@
+import "./main.js";
+
 // template
 const template = document.createElement("template");
 template.innerHTML = `
@@ -33,13 +35,13 @@ template.innerHTML = `
         <a href="" class="has-text-light">???</a>
       </span>
       <span id="buttons">
-        <button class="button is-success is-small">
+        <button class="button is-success is-small id="btn-favorite">
           <span class="icon is-small">
             <i class="fas fa-check"></i>
           </span>
           <span>Favorite</span>
         </button>
-        <button class="button is-warning is-small">
+        <button class="button is-warning is-small" id="btn-delete">
           <span>Delete</span>
           <span class="icon is-small">
             <i class="fas fa-times"></i>
@@ -74,6 +76,15 @@ class MyBookmark extends HTMLElement {
 
     // called when the component is inserted into the DOM
     connectedCallback(){
+      const defaultCallback = () => console.log(`this._callback is not defined for ${this.tagName}`);
+      this.callback = this.callback || defaultCallback;
+  
+      // hook up component delete button
+      this.shadowRoot.querySelector('#btn-delete').onclick = () => {
+        // remove from the DOM
+        this.parentElement.remove();
+      }
+
       this.render();
     }
 

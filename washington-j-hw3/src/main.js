@@ -21,6 +21,7 @@ numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
 
 
 // **************** functions ****************
+
 // submit button function
 const submitClicked = (evt) => {
   console.log("submit clicked");
@@ -58,6 +59,7 @@ const submitClicked = (evt) => {
   return false;
 }
 
+// cancel button function
 const clearFormFields = (evt) => {
   for (let f of fields){
     f.value = "";
@@ -71,24 +73,24 @@ const clearFormFields = (evt) => {
   return false;
 }
 
+// delete button function
 const deleteFavorite = (fid) => {
   for (let f of favorites){
     if (f.fid == fid){
       // get the index of the favorite to delete
       let index = favorites.indexOf(f);
 
-      // remove chosen favorite using splice
+      // remove chosen favorite using splice; https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array-in-javascript
       favorites.splice(index, 1);
-
-      // removing from the DOM
-      f.parentElement.remove();
     }
   }
 
   // updating number of favorites
   numFavs = favorites.length;
+  numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
 }
 
+// bookmark creation function
 const createBookmarkComponent = (fid, text, url, comments) => {
   // make a new bookmark elements
   const bookmark = document.createElement("my-bookmark");
@@ -99,6 +101,9 @@ const createBookmarkComponent = (fid, text, url, comments) => {
   bookmark.dataset.url = url;
   bookmark.dataset.comments = comments;
 
+  // set up callbacks
+  bookmark.callback = deleteFavorite(fid);
+
   // add to bookmarks
   const newLI = document.createElement("li");
   newLI.appendChild(bookmark);
@@ -106,6 +111,7 @@ const createBookmarkComponent = (fid, text, url, comments) => {
 
 }
 
+// load in favorites
 const loadFavoritesFromStorage = () => {
   for (let f of favorites){
     createBookmarkComponent(f.fid, f.text, f.url, f.comments);
@@ -113,6 +119,7 @@ const loadFavoritesFromStorage = () => {
 }
 
 // **************** other stuff ****************
+
 //load favorites
 loadFavoritesFromStorage();
 
