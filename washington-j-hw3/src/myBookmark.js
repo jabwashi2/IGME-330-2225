@@ -35,7 +35,7 @@ template.innerHTML = `
         <a href="" class="has-text-light">???</a>
       </span>
       <span id="buttons">
-        <button class="button is-success is-small id="btn-favorite">
+        <button class="button is-success is-small id="btn-favorite" disabled>
           <span class="icon is-small">
             <i class="fas fa-check"></i>
           </span>

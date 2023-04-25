@@ -1,5 +1,6 @@
 import { MyBookmark } from "./myBookmark.js";
 import { Favorite } from "./favorite.js";
+import * as storage from "./storage.js"
 
 // **************** variables ****************
 
@@ -10,15 +11,10 @@ let cancelButton = document.querySelector("#favorite-cancel-button");
 // favorites
 let favorites = [];
 favorites.push(new Favorite(crypto.randomUUID(), "RIT", "https://www.rit.edu", "A private university located new Rochester, NY"));
+console.log(favorites);
 
 // input fields
 let fields = document.querySelectorAll("input");
-
-// number of favorites
-let numFavs = favorites.length;
-let numFavDisplay = document.querySelector("#num-favorites");
-numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
-
 
 // **************** functions ****************
 
@@ -52,8 +48,7 @@ const submitClicked = (evt) => {
   comments.value = "";
 
   // updating number of favorites
-  numFavs = favorites.length;
-  numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
+  updateNumFavorites();
 
   evt.preventDefault();
   return false;
@@ -85,9 +80,8 @@ const deleteFavorite = (fid) => {
     }
   }
 
-  // updating number of favorites
-  numFavs = favorites.length;
-  numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
+  updateNumFavorites();
+
 }
 
 // bookmark creation function
@@ -111,11 +105,21 @@ const createBookmarkComponent = (fid, text, url, comments) => {
 
 }
 
+// number of favorites
+const updateNumFavorites = () => {
+  // number of favorites
+  let numFavs = favorites.length;
+  let numFavDisplay = document.querySelector("#num-favorites");
+  numFavDisplay.innerHTML = `Number of Favorites: ${numFavs}`;
+}
+
 // load in favorites
 const loadFavoritesFromStorage = () => {
   for (let f of favorites){
     createBookmarkComponent(f.fid, f.text, f.url, f.comments);
   }
+  console.log(favorites);
+  updateNumFavorites();
 }
 
 // **************** other stuff ****************
@@ -128,6 +132,9 @@ submitButton.onclick = (e) => submitClicked(e);
 
 // calling clearFormFields when cancel is clicked
 cancelButton.onclick = (e) => clearFormFields(e);
+
+console.log(favorites);
+
 /*
 const bookmarks = [
     {
