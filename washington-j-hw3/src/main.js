@@ -1,8 +1,15 @@
 import { MyBookmark } from "./myBookmark.js";
 import { Favorite } from "./favorite.js";
-import * as storage from "./storage.js"
+import * as storage from "./storage.js";
+import "./myHeader.js";
 
 // **************** variables ****************
+
+// making the app header
+const header = document.createElement("my-header");
+header.dataset.title = "Web Components";
+header.dataset.subtitle = "Save your links for later!";
+document.body.insertBefore(header, document.body.firstElementChild);
 
 // submit and cancel buttons
 let submitButton = document.querySelector("#favorite-submit-button");
@@ -10,7 +17,6 @@ let cancelButton = document.querySelector("#favorite-cancel-button");
 
 // favorites
 let favorites = [];
-// favorites.push(new Favorite(crypto.randomUUID(), "RIT", "https://www.rit.edu", "A private university located new Rochester, NY"));
 
 // input fields
 let fields = document.querySelectorAll("input");
