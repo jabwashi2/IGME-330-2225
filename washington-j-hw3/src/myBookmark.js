@@ -76,11 +76,11 @@ class MyBookmark extends HTMLElement {
 
     // called when the component is inserted into the DOM
     connectedCallback(){
-      const defaultCallback = () => console.log(`this._callback is not defined for ${this.tagName}`);
-      this.callback = this.callback || defaultCallback;
-  
       // hook up component delete button
       this.shadowRoot.querySelector('#btn-delete').onclick = () => {
+        console.log(this);
+        this.callback(this._fid);
+
         // remove from the DOM
         this.parentElement.remove();
       }

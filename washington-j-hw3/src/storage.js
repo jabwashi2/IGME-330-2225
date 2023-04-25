@@ -1,8 +1,15 @@
 const defaultData = {
     "version": .01, // not using, but we can see it in localStorage
-    "favorites": ["Cheese Whiz"]
+    "favorites": [
+        {
+        fid: "1234",
+        text: "CIA", 
+        url: "https://cia.gov", 
+        comments: "The Agency."
+      }
+    ]
   },
-  storeName = "abc1234-list-data";
+  storeName = "jlw4958-hw3-data";
   
   const readLocalStorage = () => {
     let allValues = null;

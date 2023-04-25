@@ -10,8 +10,7 @@ let cancelButton = document.querySelector("#favorite-cancel-button");
 
 // favorites
 let favorites = [];
-favorites.push(new Favorite(crypto.randomUUID(), "RIT", "https://www.rit.edu", "A private university located new Rochester, NY"));
-console.log(favorites);
+// favorites.push(new Favorite(crypto.randomUUID(), "RIT", "https://www.rit.edu", "A private university located new Rochester, NY"));
 
 // input fields
 let fields = document.querySelectorAll("input");
@@ -22,7 +21,6 @@ let fields = document.querySelectorAll("input");
 const submitClicked = (evt) => {
   console.log("submit clicked");
 
-  let newFav;
   let name = document.querySelector("#favorite-text");
   let url = document.querySelector("#favorite-url");
   let comments = document.querySelector("#favorite-comments");
@@ -35,11 +33,13 @@ const submitClicked = (evt) => {
   }
   else{
     error.innerHTML = "";
-    newFav = new Favorite(crypto.randomUUID(), name.value, url.value, comments.value);
-    console.log(newFav);
-    favorites.push(newFav);
-    console.log(favorites);
-    createBookmarkComponent(newFav.fid, newFav.text, newFav.url, newFav.comments);
+    let localFid = crypto.randomUUID();
+    // add to favorites array
+    favorites.push(new Favorite(localFid, name.value, url.value, comments.value));
+    // make new bookmark
+    createBookmarkComponent(localFid, name.value, url.value, comments.value);
+    // update local storage
+    storage.setFavorites(favorites);
   }
 
   // clearing form fields
@@ -77,6 +77,7 @@ const deleteFavorite = (fid) => {
 
       // remove chosen favorite using splice; https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array-in-javascript
       favorites.splice(index, 1);
+      storage.setFavorites(favorites);
     }
   }
 
@@ -96,7 +97,7 @@ const createBookmarkComponent = (fid, text, url, comments) => {
   bookmark.dataset.comments = comments;
 
   // set up callbacks
-  bookmark.callback = deleteFavorite(fid);
+  bookmark.callback = deleteFavorite;
 
   // add to bookmarks
   const newLI = document.createElement("li");
@@ -115,10 +116,12 @@ const updateNumFavorites = () => {
 
 // load in favorites
 const loadFavoritesFromStorage = () => {
-  for (let f of favorites){
+  // get favorites from local storage
+  let favs = storage.getFavorites();
+  for (let f of favs){
     createBookmarkComponent(f.fid, f.text, f.url, f.comments);
+    favorites.push(new Favorite(f.fid, f.text, f.url, f.comments));
   }
-  console.log(favorites);
   updateNumFavorites();
 }
 
@@ -132,9 +135,6 @@ submitButton.onclick = (e) => submitClicked(e);
 
 // calling clearFormFields when cancel is clicked
 cancelButton.onclick = (e) => clearFormFields(e);
-
-console.log(favorites);
-
 /*
 const bookmarks = [
     {
