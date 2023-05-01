@@ -21,6 +21,21 @@ const showFeatureDetails = (id) => {
 	console.log(`showFeatureDetails - id=${id}`);
 	const feature = getFeatureById(id);
 	document.querySelector("#details-1").innerHTML = `Info for ${feature.properties.title}`;
+
+	// details-2 display:
+	// - address
+	// - phone
+	// - web site + clickable link
+	document.querySelector("#details-2").innerHTML = `
+	<p><b>Address: </b>${feature.properties.address}</p>
+	<p tel:><b>Phone: </b><a href="tel:+${feature.properties.phone}">${feature.properties.phone}</a></p>
+	<p><b>Website: </b> <a href="${feature.properties.url}">${feature.properties.url}</a></p>`;
+
+	// details-3 display:
+	// - park desc
+	document.querySelector("#details-3").innerHTML = `
+	<p>${feature.properties.description}</p>
+	`;
 };
 
 const setupUI = () => {
