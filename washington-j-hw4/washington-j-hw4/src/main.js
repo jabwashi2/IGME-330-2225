@@ -5,11 +5,31 @@ import * as ajax from "./ajax.js";
 // NB - it's easy to get [longitude,latitude] coordinates with this tool: http://geojson.io/
 const lnglatNYS = [-75.71615970715911, 43.025810763917775];
 const lnglatUSA = [-98.5696, 39.8282];
-let favoriteIds = ["p20","p79","p180","p43"];
+let favoriteIds = [];
 let geojson;
 
 
 // II. Functions
+const addFavorite = (id) => {
+	console.log("addFavorite clicked!");
+	// add id to favorites array
+	favoriteIds.push(id);
+}
+
+const deleteFavorite = (id) => {
+	console.log("deleteFavorite clicked!");
+	// remove id from favorites array
+	for (let thisid of favoriteIds){
+		if (thisid === id){
+		  // get the index of the favorite to delete
+		  let index = favoriteIds.indexOf(thisid);
+	
+		  // remove chosen favorite using splice; https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array-in-javascript
+		  favoriteIds.splice(index, 1);
+		}
+	}
+}
+
 const createFavoriteElement = (id) => {
 	const feature = getFeatureById(id);
 	const a = document.createElement("a");
@@ -54,10 +74,55 @@ const showFeatureDetails = (id) => {
 	// - address
 	// - phone
 	// - web site + clickable link
+	// - favorite + delete buttons
 	document.querySelector("#details-2").innerHTML = `
 	<p><b>Address: </b>${feature.properties.address}</p>
+
 	<p tel:><b>Phone: </b><a href="tel:+${feature.properties.phone}">${feature.properties.phone}</a></p>
-	<p><b>Website: </b> <a href="${feature.properties.url}">${feature.properties.url}</a></p>`;
+
+	<p><b>Website: </b> <a href="${feature.properties.url}">${feature.properties.url}</a></p>
+	
+	<div id="bookmark"><span id="buttons">
+	<button class="button is-success is-small" id="btn-favorite">
+	  <span class="icon is-small">
+		<i class="fas fa-check"></i>
+	  </span>
+	  <span>Favorite</span>
+	</button>
+	<button class="button is-warning is-small" id="btn-delete">
+	  <span>Delete</span>
+	  <span class="icon is-small">
+		<i class="fas fa-times"></i>
+	  </span>
+	</button>
+    </span></div>`;
+
+	// hooking up favorite and delete onclick
+	let favoriteBtn = document.querySelector("#btn-favorite");
+	let deleteBtn = document.querySelector("#btn-delete");
+
+	// when favoriteBtn is clicked:
+	// - add to favorites array
+	// - update local storage
+	// - disable this id's favoriteBtn
+	favoriteBtn.onclick = () => {
+		addFavorite(id);
+		refreshFavorites();
+		favoriteBtn.disabled = true;
+		deleteBtn.disabled = false;
+	}
+
+	// when deleteBtn is clicked:
+	// - remove from favorites array
+	// - update local storage
+	// - disable this id's deleteBtn
+	deleteBtn.onclick = () => {
+		deleteFavorite(id);
+		refreshFavorites();
+		deleteBtn.disabled = true;
+		favoriteBtn.disabled = false;
+	}
+
 
 	// details-3 display:
 	// - park desc
@@ -87,6 +152,8 @@ const setupUI = () => {
 		map.setPitchAndBearing(0,0);
 		map.flyTo(lnglatUSA);
 	};
+
+
 
 	refreshFavorites();
 };
