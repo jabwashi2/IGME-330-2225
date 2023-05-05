@@ -17,7 +17,7 @@ const addFavorite = (id) => {
 	console.log("addFavorite clicked!");
 	// add id to favorites array
 	favoriteIds.push(id);
-	storage.setFeaturesId();
+	storage.setFeaturesId(favoriteIds);
 };
 
 const deleteFavorite = (id) => {
@@ -33,7 +33,7 @@ const deleteFavorite = (id) => {
 		}
 	}
 
-	storage.setFeaturesId();
+	storage.setFeaturesId(favoriteIds);
 };
 // ****** end of button functions ******
 
@@ -141,6 +141,7 @@ const showFeatureDetails = (id) => {
 const loadFavoritesFromStorage = () => {
 	// get favorites from local storage
 	let favs = storage.getFeaturesId();
+	console.log(favs);
 	for (let f of favs){
 	  favoriteIds.push(f);
 	}
@@ -168,8 +169,6 @@ const setupUI = () => {
 		map.flyTo(lnglatUSA);
 	};
 
-
-
 	refreshFavorites();
 };
 
@@ -179,10 +178,10 @@ const init = () => {
 		geojson = JSON.parse(str);
 		console.log(geojson);
 		map.addMarkersToMap(geojson, showFeatureDetails);
+		loadFavoritesFromStorage();
 		setupUI();
 	});	
 
-	loadFavoritesFromStorage();
 };
 
 init();

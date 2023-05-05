@@ -35,4 +35,3 @@ const defaultData = {
     allValues.favoriteIds = [];
     writeLocalStorage(allValues);
   };
-  
