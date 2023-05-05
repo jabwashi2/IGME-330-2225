@@ -1,6 +1,8 @@
 import * as map from "./map.js";
 import * as ajax from "./ajax.js";
 import * as storage from "./storage.js";
+import "./myHeader.js";
+import "./myFooter.js";
 
 // I. Variables & constants
 // NB - it's easy to get [longitude,latitude] coordinates with this tool: http://geojson.io/
@@ -9,6 +11,15 @@ const lnglatUSA = [-98.5696, 39.8282];
 let favoriteIds = [];
 let geojson;
 
+// making the header and footer components
+const header = document.createElement("my-header");
+header.dataset.title = "HW-4 - NY State Park Buddy!";
+header.dataset.subtitle = "Your one-stop resource for NYS parks!";
+document.body.insertBefore(header, document.body.firstElementChild);
+
+const footer = document.createElement("my-footer");
+footer.dataset.footer = "&copy; 2023 Jabrecia Washington";
+document.body.insertBefore(footer, document.body.lastElementChild);
 
 // II. Functions
 
