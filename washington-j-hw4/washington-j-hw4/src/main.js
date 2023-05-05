@@ -10,6 +10,8 @@ let geojson;
 
 
 // II. Functions
+
+// ****** favorite and delete button functions ******
 const addFavorite = (id) => {
 	console.log("addFavorite clicked!");
 	// add id to favorites array
@@ -29,6 +31,7 @@ const deleteFavorite = (id) => {
 		}
 	}
 }
+// ****** end of button functions ******
 
 const createFavoriteElement = (id) => {
 	const feature = getFeatureById(id);
