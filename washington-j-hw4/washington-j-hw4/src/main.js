@@ -1,5 +1,6 @@
 import * as map from "./map.js";
 import * as ajax from "./ajax.js";
+import * as storage from "./storage.js";
 
 // I. Variables & constants
 // NB - it's easy to get [longitude,latitude] coordinates with this tool: http://geojson.io/
@@ -16,7 +17,8 @@ const addFavorite = (id) => {
 	console.log("addFavorite clicked!");
 	// add id to favorites array
 	favoriteIds.push(id);
-}
+	storage.setFeaturesId();
+};
 
 const deleteFavorite = (id) => {
 	console.log("deleteFavorite clicked!");
@@ -30,7 +32,9 @@ const deleteFavorite = (id) => {
 		  favoriteIds.splice(index, 1);
 		}
 	}
-}
+
+	storage.setFeaturesId();
+};
 // ****** end of button functions ******
 
 const createFavoriteElement = (id) => {
@@ -134,6 +138,14 @@ const showFeatureDetails = (id) => {
 	`;
 };
 
+const loadFavoritesFromStorage = () => {
+	// get favorites from local storage
+	let favs = storage.getFeaturesId();
+	for (let f of favs){
+	  favoriteIds.push(f);
+	}
+};
+
 const setupUI = () => {
 	// NYS Zoom 5.2
 	document.querySelector("#btn1").onclick = () =>{
@@ -169,6 +181,8 @@ const init = () => {
 		map.addMarkersToMap(geojson, showFeatureDetails);
 		setupUI();
 	});	
+
+	loadFavoritesFromStorage();
 };
 
 init();
