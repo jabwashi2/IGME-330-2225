@@ -33,7 +33,7 @@ const MIDDLE_Y = canvasHeight/2;
 let sparkleList = [];
  
 class SparkleSprite{
-    constructor(x=0,y=0,scale=.3) {
+    constructor(x=0,y=0,scale=.3){
         this.x = x;
         this.y = y;
         this.scale = scale;
@@ -42,26 +42,31 @@ class SparkleSprite{
         this.startY = y;
     }
  
-    update() {
-        if (this.up) {
+    update(){
+ 
+        if (this.up)
+        {
             this.y--;
  
             if (this.y <= this.startY && this.up){
                 this.up = false;
                 this.down = true;
             }
+ 
         }
-        if (this.down) {
+        if (this.down)
+        {
             this.y++;
  
             if (this.y >= 750 && this.down){
                 this.down = false;
                 this.up = true;
             }
+ 
         }
     }
  
-    draw(ctx) {
+    draw(ctx){
         ctx.lineWidth = 6;
         ctx.strokeStyle = "rgba(0,0,0,.4)";
         ctx.fillStyle = "white";
@@ -87,7 +92,7 @@ class SparkleSprite{
         ctx.moveTo(x, y);
         ctx.quadraticCurveTo(x - 40, y, x - 50, y - 50);
         ctx.quadraticCurveTo(x - 40, y, x - 90, y);
-    
+ 
         // second half
         ctx.moveTo(x,y);
         ctx.quadraticCurveTo(x - 40, y, x - 50, y + 50);
@@ -95,9 +100,9 @@ class SparkleSprite{
     }
  
 }
-
+ 
 const setupCanvas = (canvasElement,analyserNodeRef) => {
-    // create drawing context
+	// create drawing context
 	ctx = canvasElement.getContext("2d");
 	canvasWidth = canvasElement.width;
 	canvasHeight = canvasElement.height;
@@ -108,10 +113,12 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 	// this is the array where the analyser data will be stored
 	audioData = new Uint8Array(analyserNode.fftSize/2);
     setupSparkles();
+ 
 }
  
 const draw = (params={}) => {
-    // 1 - populate the audioData array with the frequency data from the analyserNode
+ 
+  // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
  
     if (waveformCheckBox.checked){
@@ -122,13 +129,15 @@ const draw = (params={}) => {
     else{
         analyserNode.getByteFrequencyData(audioData);
     }
-
-    // 2 - draw background
+	// OR
+	//analyserNode.getByteTimeDomainData(audioData); // waveform data
+ 
+	// 2 - draw background
 	ctx.save();
     ctx.fillStyle = "black";
     ctx.globalAlpha = .05;
-    ctx.fillRect(0,0,canvasWidth,canvasHeight);
-
+    ctx.fillRect(0,0,canvasWidth,canvasHeight)
+ 
 	// 3 - draw gradient
     if (gradientCheckBox.checked){
         if (params.showGradient){
@@ -160,8 +169,8 @@ const draw = (params={}) => {
             ctx.restore();
         }
     }
-
-    // 5 - draw Hearts
+ 
+	// 5 - draw Hearts
     if (heartCheckBox.checked){
         if (params.showHearts){
             ctx.save();
@@ -188,6 +197,25 @@ const draw = (params={}) => {
     if (sparkleCheckBox.checked){
         if (params.showSparkles){
             ctx.save();
+            // sparkleList[0].update(); sparkleList[0].draw(ctx);
+            // sparkleList[1].update(); sparkleList[1].draw(ctx); 
+            // sparkleList[2].update(); sparkleList[2].draw(ctx); 
+            // sparkleList[3].update(); sparkleList[3].draw(ctx); 
+            // sparkleList[4].update(); sparkleList[4].draw(ctx); 
+            // sparkleList[5].update(); sparkleList[5].draw(ctx); 
+            // sparkleList[6].update(); sparkleList[6].draw(ctx); 
+            // sparkleList[7].update(); sparkleList[7].draw(ctx); 
+            // sparkleList[8].update(); sparkleList[8].draw(ctx); 
+            // sparkleList[9].update(); sparkleList[9].draw(ctx); 
+            // sparkleList[10].update(); sparkleList[10].draw(ctx); 
+            // sparkleList[11].update(); sparkleList[11].draw(ctx); 
+            // sparkleList[12].update(); sparkleList[12].draw(ctx); 
+            // sparkleList[13].update(); sparkleList[13].draw(ctx); 
+            // sparkleList[14].update(); sparkleList[14].draw(ctx); 
+            // sparkleList[15].update(); sparkleList[15].draw(ctx); 
+            // sparkleList[16].update(); sparkleList[16].draw(ctx); 
+            // sparkleList[17].update(); sparkleList[17].draw(ctx); 
+            // sparkleList[18].update(); sparkleList[18].draw(ctx);
  
             for (let s of sparkleList){
                 s.update();
@@ -281,6 +309,48 @@ const setupSparkles = () =>{
         let sparkle1 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
         sparkleList.push(sparkle1);
     }
+ 
+    //let sparkle1 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle2 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle3 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle4 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle5 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle6 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle7 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle8 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle9 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle10 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle11 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle12 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle13 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle14 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle15 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle16 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle17 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle18 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+    // let sparkle19 = new SparkleSprite(Math.floor(Math.random() * canvasWidth*2), Math.floor(Math.random() * canvasHeight*2));
+ 
+    // sparkleList.push(sparkle1);
+    // sparkleList.push(sparkle2);
+    // sparkleList.push(sparkle3);
+    // sparkleList.push(sparkle4);
+    // sparkleList.push(sparkle5);
+    // sparkleList.push(sparkle6);
+    // sparkleList.push(sparkle7);
+    // sparkleList.push(sparkle8);
+    // sparkleList.push(sparkle9);
+    // sparkleList.push(sparkle10);
+    // sparkleList.push(sparkle11);
+    // sparkleList.push(sparkle12);
+    // sparkleList.push(sparkle13);
+    // sparkleList.push(sparkle14);
+    // sparkleList.push(sparkle15);
+    // sparkleList.push(sparkle16);
+    // sparkleList.push(sparkle17);
+    // sparkleList.push(sparkle18);
+    // sparkleList.push(sparkle19);
+ 
+ 
 }
  
 export {setupCanvas,draw};
